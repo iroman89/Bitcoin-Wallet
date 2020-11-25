@@ -1,4 +1,4 @@
-package com.beetrack.bitcointwallet.presentation
+package com.beetrack.bitcoinwallet.data
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.beetrack.bitcoinwallet", appContext.packageName)
+        assertEquals("com.beetrack.bitcoinwallet.data.test", appContext.packageName)
     }
 }

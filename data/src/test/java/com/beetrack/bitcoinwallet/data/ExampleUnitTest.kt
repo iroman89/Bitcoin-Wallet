@@ -1,4 +1,4 @@
-package com.beetrack.bitcointwallet.data
+package com.beetrack.bitcoinwallet.data
 
 import org.junit.Test
 
