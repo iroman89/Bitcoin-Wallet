@@ -1,7 +1,7 @@
-package com.beetrack.bitcoinwallet.presentation.di
+package com.beetrack.bitcoinwallet.presentation
 
 import android.app.Application
-import com.beetrack.bitcoinwallet.presentation.di.BitcoinWalletApplication.Companion.applicationComponent
+import com.beetrack.bitcoinwallet.presentation.BitcoinWalletApplication.Companion.applicationComponent
 import com.beetrack.bitcoinwallet.presentation.di.component.ApplicationComponent
 import com.beetrack.bitcoinwallet.presentation.di.component.DaggerApplicationComponent
 
