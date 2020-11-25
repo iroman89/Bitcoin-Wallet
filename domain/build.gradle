@@ -10,4 +10,10 @@ java {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    //Inject Annotation
+    implementation 'javax.inject:javax.inject:1'
 }
