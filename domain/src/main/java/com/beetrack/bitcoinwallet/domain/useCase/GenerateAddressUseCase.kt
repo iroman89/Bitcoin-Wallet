@@ -6,8 +6,8 @@ import com.beetrack.bitcoinwallet.domain.util.BaseUseCase
 import javax.inject.Inject
 
 open class GenerateAddressUseCase @Inject constructor(private val repository: BlockCypherRepository) :
-    BaseUseCase<AddressKeychainResponse, Nothing>() {
+    BaseUseCase<AddressKeychainResponse, Nothing?>() {
 
-    override suspend fun invoke(request: Nothing): AddressKeychainResponse =
+    override suspend fun invoke(request: Nothing?): AddressKeychainResponse =
         repository.generateAddress()
 }
