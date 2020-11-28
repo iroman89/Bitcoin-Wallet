@@ -9,9 +9,12 @@ import com.beetrack.bitcoinwallet.data.local.entity.AddressKeychainEntity
 @Dao
 interface AddressDao {
 
-    @Query("SELECT * FROM address")
-    fun getAddress(): AddressKeychainEntity
+    @Query("SELECT * FROM Address")
+    fun getAddress(): List<AddressKeychainEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(address: AddressKeychainEntity)
+
+    @Query("DELETE FROM Address")
+    fun deleteAll()
 }

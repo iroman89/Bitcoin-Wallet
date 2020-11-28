@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.adress
+package com.beetrack.bitcoinwallet.presentation.ui.address
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,10 +28,10 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent().inject(this)
-        setupViewModel()
+        subscribe()
     }
 
-    private fun setupViewModel() {
+    private fun subscribe() {
         generationViewModel.generateAddressLiveData.subscribe(
             this@AddressGenerationFragment,
             ::showProgress,
@@ -44,11 +44,12 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.newAddress.setOnClickListener {
-            generationViewModel.generateAddress()
+            generationViewModel.fetchAddress()
         }
         binding.saveAddress.setOnClickListener {
 //            requireContext().showMessageOKCancel()
         }
+        generationViewModel.fetchAddress()
     }
 
     private fun manageFailure(failure: Failure) {

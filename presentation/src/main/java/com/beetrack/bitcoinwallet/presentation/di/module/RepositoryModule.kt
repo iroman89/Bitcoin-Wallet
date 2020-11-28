@@ -13,11 +13,11 @@ import dagger.Module
 abstract class RepositoryModule {
 
     @Binds
+    abstract fun bindRepository(repository: BlockCypherRepositoryImpl): BlockCypherRepository
+
+    @Binds
     abstract fun bindRemoteDataSource(dataSource: RemoteDataSourceImpl): RemoteDataSource
 
     @Binds
     abstract fun bindLocalDataSource(dataSource: LocalDataSourceImpl): LocalDataSource
-
-    @Binds
-    abstract fun bindRepository(repository: BlockCypherRepositoryImpl): BlockCypherRepository
 }

@@ -16,7 +16,9 @@ class BitcoinWalletApplication : Application() {
         applicationComponent =
             DaggerApplicationComponent
                 .builder()
+                .context(this)
                 .build()
+        applicationComponent.inject(this)
     }
 }
 

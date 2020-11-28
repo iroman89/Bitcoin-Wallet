@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/addressGenerationFragment"
-        android:name="com.beetrack.bitcoinwallet.presentation.ui.adress.AddressGenerationFragment"
+        android:name="com.beetrack.bitcoinwallet.presentation.ui.address.AddressGenerationFragment"
         android:label="AddressGenerationFragment"
         tools:layout="@layout/fragment_address" />
 </navigation>

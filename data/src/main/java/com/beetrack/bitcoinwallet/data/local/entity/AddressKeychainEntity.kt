@@ -10,14 +10,14 @@ data class AddressKeychainEntity(
 
 	@PrimaryKey
 	@ColumnInfo(name = "address")
-	val address: String? = null,
+	val address: String,
 
 	@ColumnInfo(name = "jsonMemberPrivate")
-	val jsonMemberPrivate: String? = null,
+	val jsonMemberPrivate: String,
 
 	@ColumnInfo(name = "jsonMemberPublic")
-	val jsonMemberPublic: String? = null,
+	val jsonMemberPublic: String,
 
 	@ColumnInfo(name = "wif")
-	val wif: String? = null
+	val wif: String
 )
