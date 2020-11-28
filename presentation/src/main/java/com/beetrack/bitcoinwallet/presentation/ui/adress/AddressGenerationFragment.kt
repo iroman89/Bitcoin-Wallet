@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.beetrack.bitcointwallet.presentation.databinding.FragmentAddressBinding
-import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainResponse
+import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainItem
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
@@ -57,7 +57,7 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
         }
     }
 
-    private fun handleAddressGenerateSuccess(data: AddressKeychainResponse) {
+    private fun handleAddressGenerateSuccess(data: AddressKeychainItem) {
         hideProgress {
             binding.addressValue.text = data.address
             binding.addressQr.setImageBitmap(data.address?.toBitmapQR())

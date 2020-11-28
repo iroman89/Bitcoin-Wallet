@@ -1,7 +1,7 @@
 package com.beetrack.bitcoinwallet.data.repository
 
-import com.beetrack.bitcoinwallet.data.network.BlockCypherAPI
-import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainResponse
+import com.beetrack.bitcoinwallet.data.remote.BlockCypherAPI
+import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainItem
 import com.beetrack.bitcoinwallet.domain.repository.BlockCypherRepository
 import retrofit2.await
 import javax.inject.Inject
@@ -10,6 +10,6 @@ class BlockCypherRepositoryImpl @Inject constructor(private val api: BlockCypher
     BlockCypherRepository {
 
     @Throws(Exception::class)
-    override suspend fun generateAddress(): AddressKeychainResponse =
+    override suspend fun generateAddress(): AddressKeychainItem =
         api.generateAddress().await()
 }

@@ -1,7 +1,7 @@
 package com.beetrack.bitcoinwallet.presentation.di.module
 
 import com.beetrack.bitcointwallet.presentation.BuildConfig
-import com.beetrack.bitcoinwallet.data.network.BlockCypherAPI
+import com.beetrack.bitcoinwallet.data.remote.BlockCypherAPI
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
