@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.beetrack.bitcointwallet.presentation">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.beetrack.bitcoinwallet.presentation.BitcoinWalletApplication"
         android:allowBackup="true"

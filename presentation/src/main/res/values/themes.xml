@@ -12,36 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:background">@color/white</item>
     </style>
-
-    <style name="ToolBarStyle" parent="Theme.AppCompat">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="background">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="actionMenuTextColor">@color/tintColor</item>
-        <item name="colorControlHighlight">@color/tintColor</item>
-        <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
-        <item name="colorControlNormal">@color/tintColor</item>
-
-        <!-- ActionMode -->
-        <item name="actionModeBackground">@color/tintColor</item>
-        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="actionModeCloseButtonStyle">@style/closeButtonActionMode</item>
-    </style>
-
-    <style name="AppTheme.Widget.ActionButton" parent="@style/Widget.AppCompat.ActionButton">
-        <item name="textAllCaps">false</item>
-    </style>
-
-    <style name="closeButtonActionMode" parent="Widget.AppCompat.Light.ActionButton.CloseMode">
-        <item name="android:tint">@color/colorPrimary</item>
-    </style>
-
-    <style name="DialogCustomTitle">
-        <item name="android:textColor">@color/textColor</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
 
 </resources>

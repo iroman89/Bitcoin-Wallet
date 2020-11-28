@@ -10,7 +10,11 @@ import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainResponse
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
+import com.beetrack.bitcoinwallet.presentation.util.extension.gone
+import com.beetrack.bitcoinwallet.presentation.util.extension.visible
 import com.beetrack.bitcoinwallet.presentation.util.subscribe
+import com.beetrack.bitcoinwallet.presentation.util.toBitmapQR
+
 
 class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
 
@@ -24,11 +28,10 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent().inject(this)
+        setupViewModel()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    private fun setupViewModel() {
         generationViewModel.generateAddressLiveData.subscribe(
             this@AddressGenerationFragment,
             ::showProgress,
@@ -37,15 +40,42 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
         )
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.newAddress.setOnClickListener {
+            generationViewModel.generateAddress()
+        }
+        binding.saveAddress.setOnClickListener {
+//            requireContext().showMessageOKCancel()
+        }
+    }
+
     private fun manageFailure(failure: Failure) {
-        TODO("Not yet implemented")
+        hideProgress {
+            //Todo
+        }
     }
 
     private fun handleAddressGenerateSuccess(data: AddressKeychainResponse) {
-        TODO("Not yet implemented")
+        hideProgress {
+            binding.addressValue.text = data.address
+            binding.addressQr.setImageBitmap(data.address?.toBitmapQR())
+        }
     }
 
     private fun showProgress() {
-        TODO("Not yet implemented")
+        binding.progressScreen.visible()
+        binding.progressScreen.progressMessage.text = "Generating Address..."
+        binding.visibleGroup.gone()
+    }
+
+    private fun hideProgress(func: () -> Unit) {
+        try {
+            func()
+        } finally {
+            binding.progressScreen.gone()
+            binding.visibleGroup.visible()
+        }
     }
 }

@@ -48,14 +48,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address_value"
-        app:srcCompat="@drawable/abc_vector_test"
-        tools:tint="@color/colorPrimary" />
+        app:srcCompat="@drawable/abc_vector_test" />
 
     <Button
         android:id="@+id/new_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="50dp"
         android:text="@string/new_address"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/save_address"
@@ -69,5 +68,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/new_address"
         app:layout_constraintTop_toTopOf="@+id/new_address" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/visible_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="save_address,new_address,address_value,address_title" />
+
+    <include
+        android:id="@+id/progress_screen"
+        layout="@layout/progress_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
