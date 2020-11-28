@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.data.remote
+package com.beetrack.bitcoinwallet.data.remote.api
 
 import com.beetrack.bitcoinwallet.data.remote.data.AddressKeychainData
 import retrofit2.Call

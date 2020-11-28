@@ -2,7 +2,7 @@ package com.beetrack.bitcoinwallet.presentation.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.beetrack.bitcoinwallet.data.local.BlockCypherDatabase
+import com.beetrack.bitcoinwallet.data.local.database.BitcoinWalletDatabase
 import com.beetrack.bitcoinwallet.data.local.DatabaseConstants
 import dagger.Module
 import dagger.Provides
@@ -16,7 +16,7 @@ class DatabaseModule {
     fun provideRoomDatabase(context: Context) =
         Room.databaseBuilder(
             context,
-            BlockCypherDatabase::class.java,
+            BitcoinWalletDatabase::class.java,
             DatabaseConstants.DATABASE_NAME
         ).allowMainThreadQueries().build()
 }

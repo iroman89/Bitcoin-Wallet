@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.data.local
+package com.beetrack.bitcoinwallet.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -10,6 +10,6 @@ import com.beetrack.bitcoinwallet.data.remote.data.AddressKeychainData
     entities = [AddressKeychainData::class],
     version = DATABASE_VERSION
 )
-abstract class BlockCypherDatabase : RoomDatabase() {
+abstract class BitcoinWalletDatabase : RoomDatabase() {
     abstract val addressDao: AddressDao
 }

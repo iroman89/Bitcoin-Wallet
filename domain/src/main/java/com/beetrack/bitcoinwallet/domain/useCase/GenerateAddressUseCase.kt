@@ -1,13 +1,13 @@
 package com.beetrack.bitcoinwallet.domain.useCase
 
-import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainItem
+import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
 import com.beetrack.bitcoinwallet.domain.repository.BlockCypherRepository
 import com.beetrack.bitcoinwallet.domain.util.BaseUseCase
 import javax.inject.Inject
 
 open class GenerateAddressUseCase @Inject constructor(private val repository: BlockCypherRepository) :
-    BaseUseCase<AddressKeychainItem, Nothing?>() {
+    BaseUseCase<AddressKeychainModel, Nothing?>() {
 
-    override suspend fun invoke(request: Nothing?): AddressKeychainItem =
+    override suspend fun invoke(request: Nothing?): AddressKeychainModel =
         repository.generateAddress()
 }
