@@ -12,7 +12,11 @@ class LocalDataSourceImpl @Inject constructor(private val addressDao: AddressDao
 
     @Throws(Exception::class)
     override fun getAddress(): Flow<List<AddressKeychainEntity>> = flow {
-        emit(addressDao.getAddress())
+//        val address = addressDao.getAddress()
+//        if (address.isEmpty())
+//            emit(throw java.lang.Exception("Ha ocurrido un error"))
+//        else
+            emit( addressDao.getAddress())
     }
 
     @Throws(Exception::class)

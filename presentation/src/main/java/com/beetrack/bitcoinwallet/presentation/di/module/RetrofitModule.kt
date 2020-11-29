@@ -1,14 +1,20 @@
 package com.beetrack.bitcoinwallet.presentation.di.module
 
+import android.content.Context
 import com.beetrack.bitcointwallet.presentation.BuildConfig
 import com.beetrack.bitcoinwallet.data.remote.api.BlockCypherAPI
+import com.beetrack.bitcoinwallet.presentation.util.WithoutConnectivityException
+import com.beetrack.bitcoinwallet.presentation.util.hasNetworkAvailable
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -17,7 +23,7 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideHttpClient(): OkHttpClient {
+    fun provideHttpClient(context: Context): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
 
         if (BuildConfig.DEBUG) {
@@ -27,6 +33,7 @@ class RetrofitModule {
                 }
             )
         }
+        clientBuilder.addInterceptor(NetworkConnectionInterceptor(context))
 
         clientBuilder.connectTimeout(10, TimeUnit.SECONDS)
         clientBuilder.writeTimeout(10, TimeUnit.SECONDS)
@@ -49,5 +56,16 @@ class RetrofitModule {
     @Singleton
     fun provideAPIService(retrofit: Retrofit): BlockCypherAPI {
         return retrofit.create(BlockCypherAPI::class.java)
+    }
+}
+
+class NetworkConnectionInterceptor constructor(private val context: Context) : Interceptor {
+
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        if (!hasNetworkAvailable(context)) {
+            throw WithoutConnectivityException()
+        }
+        return chain.proceed(chain.request())
     }
 }

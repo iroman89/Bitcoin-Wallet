@@ -44,17 +44,24 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.newAddress.setOnClickListener {
-            generationViewModel.fetchAddress()
+            generationViewModel.getAddress(true)
         }
         binding.saveAddress.setOnClickListener {
 //            requireContext().showMessageOKCancel()
         }
-        generationViewModel.fetchAddress()
+        generationViewModel.getAddress()
     }
 
     private fun manageFailure(failure: Failure) {
         hideProgress {
-            //Todo
+            when (failure) {
+                Failure.Empty -> {
+                    //Show Empty
+                }
+                else -> {
+
+                }
+            }
         }
     }
 

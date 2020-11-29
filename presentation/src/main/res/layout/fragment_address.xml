@@ -74,10 +74,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:constraint_referenced_ids="save_address,new_address,address_value,address_title" />
+        app:constraint_referenced_ids="save_address,new_address,address_value,address_title"
+        tools:visibility="visible" />
 
     <include
         android:id="@+id/progress_screen"
-        layout="@layout/progress_layout" />
+        layout="@layout/progress_layout"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
