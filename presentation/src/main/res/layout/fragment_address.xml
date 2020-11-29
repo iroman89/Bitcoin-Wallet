@@ -44,6 +44,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"
+        android:contentDescription="@string/address"
         app:layout_constraintBottom_toTopOf="@+id/new_address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,16 +71,20 @@
         app:layout_constraintTop_toTopOf="@+id/new_address" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/visible_group"
+        android:id="@+id/normal_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
         app:constraint_referenced_ids="save_address,new_address,address_value,address_title"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <include
         android:id="@+id/progress_screen"
         layout="@layout/progress_layout"
         tools:visibility="gone" />
+
+    <include
+        android:id="@+id/empty_screen"
+        layout="@layout/address_empty_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

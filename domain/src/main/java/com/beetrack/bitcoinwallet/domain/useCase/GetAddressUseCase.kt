@@ -7,8 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 open class GetAddressUseCase @Inject constructor(private val repository: BlockCypherRepository) :
-    BaseUseCase<Flow<AddressKeychainModel>, Boolean>() {
+    BaseGetAddressUseCase() {
 
-    override suspend fun invoke(params: Boolean): Flow<AddressKeychainModel> =
-        repository.getAddress(params)
+    override suspend fun invoke(params: Nothing?): Flow<AddressKeychainModel> =
+        repository.getAddress()
 }
+
+typealias BaseGetAddressUseCase = BaseUseCase<Flow<AddressKeychainModel>, Nothing?>

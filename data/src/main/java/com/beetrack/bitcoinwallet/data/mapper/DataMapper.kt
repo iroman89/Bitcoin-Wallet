@@ -20,6 +20,14 @@ fun AddressKeychainData.toEntity(): AddressKeychainEntity =
         this.wif ?: ""
     )
 
+fun AddressKeychainModel.toEntity(): AddressKeychainEntity =
+    AddressKeychainEntity(
+        this.address ?: "",
+        this.jsonMemberPrivate ?: "",
+        this.jsonMemberPublic ?: "",
+        this.wif ?: ""
+    )
+
 fun AddressKeychainEntity.toModel(): AddressKeychainModel =
     AddressKeychainModel(
         this.jsonMemberPrivate,

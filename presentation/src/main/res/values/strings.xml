@@ -7,4 +7,6 @@
     <string name="history">History</string>
     <string name="not_address_generated">Not Address Generated</string>
     <string name="start">Start</string>
+    <string name="network_error">No has internet connection</string>
+    <string name="generic_error">An error has ocurred, try again</string>
 </resources>

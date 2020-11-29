@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddressGenerationViewModel @Inject constructor(
-    private val getAddressUseCase: GetAddressUseCase
+    private val getAddressUseCase: GetAddressUseCase,
 ) : BaseViewModel() {
 
     private val _generateAddressLiveData: MutableLiveData<Resource<AddressKeychainModel>> =

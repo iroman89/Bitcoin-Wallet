@@ -12,19 +12,21 @@ import javax.inject.Inject
 
 class BlockCypherRepositoryImpl @Inject constructor(
     private val remote: RemoteDataSource,
-    private val local: LocalDataSource
+    private val local: LocalDataSource,
 ) : BlockCypherRepository {
 
     @Throws(Exception::class)
-    override suspend fun getAddress(generateNew: Boolean): Flow<AddressKeychainModel> {
-        if (generateNew) {
-            remote.generateAddress().also {
-                local.deleteAll()
-                local.insertAddress(it.toEntity())
-            }
-        }
-        return local.getAddress().map {
+    override suspend fun generateAddress(): AddressKeychainModel =
+        remote.generateAddress().toModel()
+
+    @Throws(Exception::class)
+    override suspend fun getAddress(): Flow<AddressKeychainModel> =
+        local.getAddress().map {
             it.single().toModel()
         }
+
+    override suspend fun saveAddress(address: AddressKeychainModel) {
+        local.deleteAll()
+        local.insertAddress(address.toEntity())
     }
 }
