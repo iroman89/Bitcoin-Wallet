@@ -2,16 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/address_item"
+        android:icon="@drawable/ic_qr_code"
         android:orderInCategory="1"
         android:title="@string/address" />
 
     <item
         android:id="@+id/state_item"
+        android:icon="@drawable/ic_balance"
         android:orderInCategory="2"
         android:title="@string/state" />
 
     <item
         android:id="@+id/history_item"
+        android:icon="@drawable/ic_history"
         android:orderInCategory="3"
         android:title="@string/history" />
 </menu>

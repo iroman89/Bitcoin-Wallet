@@ -2,7 +2,7 @@ package com.beetrack.bitcoinwallet.presentation.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.beetrack.bitcoinwallet.presentation.ui.address.AddressGenerationViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.viewModel.AddressViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ViewModelFactory
 import com.beetrack.bitcoinwallet.presentation.util.ViewModelKey
 import dagger.Binds
@@ -17,6 +17,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AddressGenerationViewModel::class)
-    abstract fun bindAddressGeneratorViewModel(viewModel: AddressGenerationViewModel): ViewModel
+    @ViewModelKey(AddressViewModel::class)
+    abstract fun bindAddressGeneratorViewModel(viewModel: AddressViewModel): ViewModel
 }

@@ -5,8 +5,18 @@
     <string name="address">Address</string>
     <string name="state">State</string>
     <string name="history">History</string>
-    <string name="not_address_generated">Not Address Generated</string>
+    <string name="not_address_generated">Not Address Saved</string>
     <string name="start">Start</string>
     <string name="network_error">No has internet connection</string>
-    <string name="generic_error">An error has ocurred, try again</string>
+    <string name="generic_error">An error has occurred, try again</string>
+    <string name="confirm">Confirmation</string>
+    <string name="want_to_save_address">Do you want to save the address?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="getting_address_progress">Getting Address…</string>
+    <string name="generating_address_progress">Generating Address…</string>
+    <string name="saving_address_progress">Saving Address…</string>
+    <string name="generic_progress">Please wait…</string>
+    <string name="no_address_to_save">No Address to save</string>
+    <string name="address_saved">Successfully saved Address</string>
 </resources>

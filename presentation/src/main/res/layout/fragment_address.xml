@@ -29,7 +29,6 @@
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
-        android:textStyle="bold"
         app:drawableEndCompat="@drawable/ic_content_copy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address_value"
-        app:srcCompat="@drawable/abc_vector_test" />
+        app:srcCompat="@drawable/qr_image" />
 
     <Button
         android:id="@+id/new_address"
@@ -75,16 +74,22 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:constraint_referenced_ids="save_address,new_address,address_value,address_title"
-        tools:visibility="gone" />
+        app:constraint_referenced_ids="
+        save_address,
+        new_address,
+        address_qr,
+        address_value,
+        address_title" />
 
     <include
         android:id="@+id/progress_screen"
         layout="@layout/progress_layout"
-        tools:visibility="gone" />
+        android:visibility="visible" />
 
     <include
         android:id="@+id/empty_screen"
-        layout="@layout/address_empty_layout" />
+        layout="@layout/address_empty_layout"
+        android:visibility="gone"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

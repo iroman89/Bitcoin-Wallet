@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 interface BlockCypherRepository {
 
     @Throws(Exception::class)
-    suspend fun generateAddress(): AddressKeychainModel
+    suspend fun getAddress(): Flow<AddressKeychainModel>
 
     @Throws(Exception::class)
-    suspend fun getAddress(): Flow<AddressKeychainModel>
+    suspend fun generateAddress(): AddressKeychainModel
 
     @Throws(Exception::class)
     suspend fun saveAddress(address: AddressKeychainModel)

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import javax.inject.Inject
 
@@ -21,7 +23,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = setBinding(inflater, container)
         return binding.root
@@ -30,5 +32,11 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    fun <T> Fragment.observe(liveData: LiveData<T>, observer: Observer<T>) {
+        liveData.observe(this) {
+            observer.onChanged(it)
+        }
     }
 }

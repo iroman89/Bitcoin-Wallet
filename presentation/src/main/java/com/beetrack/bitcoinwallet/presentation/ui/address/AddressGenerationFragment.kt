@@ -10,18 +10,15 @@ import com.beetrack.bitcointwallet.presentation.databinding.FragmentAddressBindi
 import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
+import com.beetrack.bitcoinwallet.presentation.ui.address.viewModel.AddressState
+import com.beetrack.bitcoinwallet.presentation.ui.address.viewModel.AddressViewModel
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
-import com.beetrack.bitcoinwallet.presentation.util.extension.gone
-import com.beetrack.bitcoinwallet.presentation.util.extension.hasNetworkAvailable
-import com.beetrack.bitcoinwallet.presentation.util.extension.toast
-import com.beetrack.bitcoinwallet.presentation.util.extension.visible
-import com.beetrack.bitcoinwallet.presentation.util.subscribe
+import com.beetrack.bitcoinwallet.presentation.util.extension.*
 import com.beetrack.bitcoinwallet.presentation.util.toBitmapQR
-
 
 class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
 
-    private val generationViewModel: AddressGenerationViewModel by viewModels { viewModelFactory }
+    private val addressViewModel: AddressViewModel by viewModels { viewModelFactory }
 
     override fun setBinding(
         inflater: LayoutInflater,
@@ -35,84 +32,114 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
     }
 
     private fun subscribe() {
-        generationViewModel.generateAddressLiveData.subscribe(
-            this@AddressGenerationFragment,
-            ::showProgress,
-            ::handleAddressGenerateSuccess,
-            ::manageFailure
-        )
+        with(addressViewModel) {
+            observe(getAddressLiveData) {
+                it?.also {
+                    handleAddressState(it)
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            newAddress.setOnClickListener {
-                getAddress(true)
-            }
-            saveAddress.setOnClickListener {
-//            requireContext().showMessageOKCancel()
-            }
-            emptyScreen.emptyStart.setOnClickListener {
-                getAddress(true)
-            }
-        }
-        getAddress()
-    }
 
-    private fun getAddress(generateNew: Boolean = false) {
-        if (!requireContext().hasNetworkAvailable()) {
-            manageFailure(Failure.NetworkConnection)
-            return
-        }
-        generationViewModel.getAddress(generateNew)
-    }
-
-    private fun manageFailure(failure: Failure) {
-        hideProgress {
-            when (failure) {
-                Failure.Empty -> showEmpty()
-                Failure.NetworkConnection -> requireActivity().toast(getString(R.string.network_error))
-                else -> {
-                    requireActivity().toast(getString(R.string.generic_error))
+            val generateAddressClickListener = View.OnClickListener {
+                if (!requireContext().hasNetworkAvailable()) {
+                    manageFailure(Failure.NetworkConnection)
+                    return@OnClickListener
                 }
+                addressViewModel.generateAddress()
+            }
+
+            newAddress.setOnClickListener(generateAddressClickListener)
+            emptyScreen.emptyStart.setOnClickListener(generateAddressClickListener)
+
+            saveAddress.isEnabled = false
+            saveAddress.setOnClickListener {
+                if (!it.isEnabled) {
+                    requireActivity().toast(getString(R.string.no_address_to_save))
+                    return@setOnClickListener
+                }
+                requireContext().showMessageOKCancel(
+                    getString(R.string.confirm),
+                    getString(R.string.want_to_save_address),
+                    getString(R.string.ok),
+                    { dialog, _ ->
+                        addressViewModel.saveAddress()
+                        dialog.dismiss()
+                    },
+                    getString(R.string.cancel),
+                    { dialog, _ ->
+                        dialog.dismiss()
+                    })
             }
         }
+        addressViewModel.getAddress()
     }
 
-    private fun handleAddressGenerateSuccess(data: AddressKeychainModel) {
+    private fun handleAddressState(addressState: AddressState<AddressKeychainModel>) =
+        when (addressState) {
+            is AddressState.Loading -> showProgress()
+            is AddressState.Got -> getOrGenerateAddressSuccess(addressState.data)
+            is AddressState.Generated -> getOrGenerateAddressSuccess(addressState.data, true)
+            is AddressState.Saved -> saveAddressSuccess()
+            is AddressState.Error -> manageFailure(addressState.failure)
+        }
+
+    private fun getOrGenerateAddressSuccess(
+        data: AddressKeychainModel?,
+        isGenerated: Boolean = false,
+    ) =
         hideProgress {
             with(binding) {
-                addressValue.text = data.address
-                addressQr.setImageBitmap(data.address?.toBitmapQR())
+                saveAddress.isEnabled = isGenerated
+                addressValue.text = data?.address
+                addressQr.setImageBitmap(data?.address?.toBitmapQR())
             }
         }
-    }
 
-    private fun showProgress() {
+    private fun saveAddressSuccess() =
+        hideProgress {
+            binding.saveAddress.isEnabled = false
+            requireActivity().toast(getString(R.string.address_saved))
+        }
+
+    private fun manageFailure(failure: Failure?) =
+        when (failure) {
+            Failure.Empty -> showEmpty()
+            Failure.NetworkConnection -> requireActivity().toast(getString(R.string.network_error))
+            Failure.NoDataToSave -> requireActivity().toast(getString(R.string.no_address_to_save))
+            else -> {
+                requireActivity().toast(getString(R.string.generic_error))
+            }
+        }
+
+    private fun showProgress(message: String = getString(R.string.generic_progress)) =
         with(binding) {
             progressScreen.visible()
-            progressScreen.progressMessage.text = "Generating Address..."
+            progressScreen.progressMessage.text = message
             normalView.gone()
+            emptyScreen.gone()
         }
-    }
 
-    private fun hideProgress(func: () -> Unit) {
-        try {
-            func()
-        } finally {
-            with(binding) {
-                progressScreen.gone()
-                normalView.visible()
-            }
-        }
-    }
-
-    private fun showEmpty() {
+    private fun showEmpty() =
         with(binding) {
             progressScreen.gone()
             normalView.gone()
             emptyScreen.visible()
         }
-    }
+
+    private fun hideProgress(func: () -> Unit) =
+        try {
+            func()
+        } finally {
+            with(binding) {
+                progressScreen.gone()
+                emptyScreen.gone()
+                normalView.visible()
+            }
+        }
 }

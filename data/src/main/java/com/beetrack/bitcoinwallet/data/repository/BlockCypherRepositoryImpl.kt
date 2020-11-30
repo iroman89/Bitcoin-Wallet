@@ -16,15 +16,16 @@ class BlockCypherRepositoryImpl @Inject constructor(
 ) : BlockCypherRepository {
 
     @Throws(Exception::class)
-    override suspend fun generateAddress(): AddressKeychainModel =
-        remote.generateAddress().toModel()
-
-    @Throws(Exception::class)
     override suspend fun getAddress(): Flow<AddressKeychainModel> =
         local.getAddress().map {
             it.single().toModel()
         }
 
+    @Throws(Exception::class)
+    override suspend fun generateAddress(): AddressKeychainModel =
+        remote.generateAddress().toModel()
+
+    @Throws(Exception::class)
     override suspend fun saveAddress(address: AddressKeychainModel) {
         local.deleteAll()
         local.insertAddress(address.toEntity())
