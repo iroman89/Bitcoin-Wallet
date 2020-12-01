@@ -8,4 +8,5 @@ object DatabaseConstants {
 
     //Entities
     const val ADDRESS_TABLE = "Address"
+    const val ADDRESS_BALANCE_TABLE = "AddressBalance"
 }

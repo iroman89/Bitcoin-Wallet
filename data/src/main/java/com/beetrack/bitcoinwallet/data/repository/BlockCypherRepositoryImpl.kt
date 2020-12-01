@@ -27,7 +27,7 @@ class BlockCypherRepositoryImpl @Inject constructor(
 
     @Throws(Exception::class)
     override suspend fun saveAddress(address: AddressKeychainModel) {
-        local.deleteAll()
+        local.deleteAllAddress()
         local.insertAddress(address.toEntity())
     }
 }

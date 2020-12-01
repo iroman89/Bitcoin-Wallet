@@ -10,7 +10,7 @@ import com.beetrack.bitcoinwallet.data.local.entity.AddressKeychainEntity
 interface AddressDao {
 
     @Query("SELECT * FROM Address")
-    fun getAddress(): List<AddressKeychainEntity>
+    fun get(): List<AddressKeychainEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(address: AddressKeychainEntity)

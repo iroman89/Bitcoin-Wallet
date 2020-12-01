@@ -19,4 +19,7 @@
     <string name="generic_progress">Please wait…</string>
     <string name="no_address_to_save">No Address to save</string>
     <string name="address_saved">Successfully saved Address</string>
+    <string name="balance">Balance</string>
+    <string name="unconfirmed_balance">Unconfirmed balance</string>
+    <string name="final_balance">Final balance</string>
 </resources>

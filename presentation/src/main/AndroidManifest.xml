@@ -17,6 +17,13 @@
         android:usesCleartextTraffic="false"
         tools:targetApi="m">
 
+        <!-- Remove WorkManager default initialization -->
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            tools:node="remove"
+            android:exported="false" />
+
         <activity android:name="com.beetrack.bitcoinwallet.presentation.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
