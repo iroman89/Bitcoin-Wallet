@@ -2,7 +2,8 @@
     <string name="app_name">Bitcoint Wallet</string>
     <string name="new_address">New</string>
     <string name="save_address">Save</string>
-    <string name="address">Address:</string>
+    <string name="address_label">Address:</string>
+    <string name="address">Address</string>
     <string name="state">State</string>
     <string name="history">History</string>
     <string name="not_address_generated">Not Address Saved</string>
@@ -23,4 +24,5 @@
     <string name="unconfirmed_balance">Unconfirmed balance:</string>
     <string name="final_balance">Final balance:</string>
     <string name="getting_address_balance_progress">Getting balance…</string>
+    <string name="refresh">Refresh</string>
 </resources>

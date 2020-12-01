@@ -1,9 +1,7 @@
 package com.beetrack.bitcoinwallet.presentation.ui.address.state
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
 import com.beetrack.bitcointwallet.presentation.R
 import com.beetrack.bitcointwallet.presentation.databinding.FragmentStateBinding
@@ -27,6 +25,7 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         appComponent().inject(this)
         subscribe()
     }
@@ -45,6 +44,22 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
         stateViewModel.addressBalanceLiveData.value?.also {
             handleAddressBalanceState(it)
         } ?: stateViewModel.getAddressBalance()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.state_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.refresh -> {
+                stateViewModel.getAddressBalance()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 
     private fun handleAddressBalanceState(state: ResourceState<AddressBalanceModel>) {

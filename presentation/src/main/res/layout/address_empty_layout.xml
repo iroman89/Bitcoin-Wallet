@@ -8,7 +8,7 @@
         android:id="@+id/empty_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/address"
+        android:contentDescription="@string/address_label"
         app:layout_constraintBottom_toTopOf="@+id/empty_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
