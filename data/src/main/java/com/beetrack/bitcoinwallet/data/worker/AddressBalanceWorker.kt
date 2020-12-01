@@ -38,7 +38,7 @@ class AddressBalanceWorker constructor(
 }
 
 val AddressBalanceWorkRequest = OneTimeWorkRequestBuilder<AddressBalanceWorker>()
-    .setInitialDelay(3, TimeUnit.MINUTES)
+    .setInitialDelay(1, TimeUnit.MINUTES)
     .setConstraints(
         Constraints.Builder()
             .apply {

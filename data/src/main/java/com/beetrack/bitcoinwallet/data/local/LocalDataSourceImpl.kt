@@ -1,3 +1,5 @@
+@file:Suppress("EXPERIMENTAL_API_USAGE")
+
 package com.beetrack.bitcoinwallet.data.local
 
 import com.beetrack.bitcoinwallet.data.local.dao.AddressBalanceDao
@@ -6,7 +8,6 @@ import com.beetrack.bitcoinwallet.data.local.entity.AddressBalanceEntity
 import com.beetrack.bitcoinwallet.data.local.entity.AddressKeychainEntity
 import com.beetrack.bitcoinwallet.data.repository.source.LocalDataSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
@@ -15,23 +16,22 @@ class LocalDataSourceImpl @Inject constructor(
 ) : LocalDataSource {
 
     @Throws(Exception::class)
-    override fun getAddress(): Flow<List<AddressKeychainEntity>> = flow {
-        emit(addressDao.get())
-    }
+    override fun getAddress(): Flow<List<AddressKeychainEntity>> =
+        addressDao.get()
 
     @Throws(Exception::class)
-    override fun insertAddress(address: AddressKeychainEntity) =
-        addressDao.insert(address)
-
-    @Throws(Exception::class)
-    override fun deleteAllAddress() =
+    override fun insertAddress(address: AddressKeychainEntity) {
         addressDao.deleteAll()
-
-    @Throws(Exception::class)
-    override fun getAddressBalance(): Flow<List<AddressBalanceEntity>> = flow {
-        emit(addressBalanceDao.get())
+        addressDao.insert(address)
     }
 
-    override fun insertAddressBalance(addressBalance: AddressBalanceEntity) =
+    @Throws(Exception::class)
+    override fun getAddressBalance(): Flow<List<AddressBalanceEntity>> =
+        addressBalanceDao.get()
+
+
+    override fun insertAddressBalance(addressBalance: AddressBalanceEntity) {
+        addressBalanceDao.deleteAll()
         addressBalanceDao.insert(addressBalance)
+    }
 }

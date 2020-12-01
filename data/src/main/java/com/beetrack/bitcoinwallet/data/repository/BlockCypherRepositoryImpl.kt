@@ -5,6 +5,7 @@ import com.beetrack.bitcoinwallet.data.mapper.toModel
 import com.beetrack.bitcoinwallet.data.repository.source.LocalDataSource
 import com.beetrack.bitcoinwallet.data.repository.source.RemoteDataSource
 import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
+import com.beetrack.bitcoinwallet.domain.model.addressBalance.AddressBalanceModel
 import com.beetrack.bitcoinwallet.domain.repository.BlockCypherRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,11 +16,13 @@ class BlockCypherRepositoryImpl @Inject constructor(
     private val local: LocalDataSource,
 ) : BlockCypherRepository {
 
+
     @Throws(Exception::class)
-    override suspend fun getAddress(): Flow<AddressKeychainModel> =
-        local.getAddress().map {
+    override suspend fun getAddress(): Flow<AddressKeychainModel> {
+        return local.getAddress().map {
             it.single().toModel()
         }
+    }
 
     @Throws(Exception::class)
     override suspend fun generateAddress(): AddressKeychainModel =
@@ -27,7 +30,11 @@ class BlockCypherRepositoryImpl @Inject constructor(
 
     @Throws(Exception::class)
     override suspend fun saveAddress(address: AddressKeychainModel) {
-        local.deleteAllAddress()
         local.insertAddress(address.toEntity())
     }
+
+    override suspend fun getAddressBalance(): Flow<AddressBalanceModel> =
+        local.getAddressBalance().map {
+            it.single().toModel()
+        }
 }

@@ -12,8 +12,6 @@ sealed class ResourceState<T>(
     class Success<T>(data: T) : ResourceState<T>(data)
     class Loading<T> : ResourceState<T>()
     class Error<T>(failure: Failure) : ResourceState<T>(failure = failure)
-
-    abstract class FeatureState<T> : ResourceState<T>()
 }
 
 @Suppress("UNCHECKED_CAST")

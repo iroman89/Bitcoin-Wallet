@@ -10,8 +10,6 @@ interface LocalDataSource {
 
     fun insertAddress(address: AddressKeychainEntity)
 
-    fun deleteAllAddress()
-
     fun getAddressBalance(): Flow<List<AddressBalanceEntity>>
 
     fun insertAddressBalance(addressBalance: AddressBalanceEntity)

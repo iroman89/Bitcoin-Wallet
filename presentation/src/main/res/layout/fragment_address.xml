@@ -84,12 +84,13 @@
     <include
         android:id="@+id/progress_screen"
         layout="@layout/progress_layout"
-        android:visibility="visible" />
+        android:visibility="visible"
+        tools:visibility="gone" />
 
     <include
         android:id="@+id/empty_screen"
         layout="@layout/address_empty_layout"
         android:visibility="gone"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
