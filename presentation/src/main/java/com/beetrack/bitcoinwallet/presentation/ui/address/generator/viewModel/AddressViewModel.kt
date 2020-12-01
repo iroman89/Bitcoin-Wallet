@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.viewModel
+package com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +13,6 @@ import com.beetrack.bitcoinwallet.domain.util.toFailure
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,11 +36,9 @@ class AddressViewModel @Inject constructor(
             }.onSuccess {
                 it.catch {
                     _getAddressLiveData.postValue(AddressState.Error(Failure.Empty))
+                }.collect { address ->
+                    _getAddressLiveData.postValue(AddressState.Got(address))
                 }
-                    .distinctUntilChanged()
-                    .collect { address ->
-                        _getAddressLiveData.postValue(AddressState.Got(address))
-                    }
             }.onFailure {
                 _getAddressLiveData.postValue(AddressState.Error(it.toFailure()))
             }

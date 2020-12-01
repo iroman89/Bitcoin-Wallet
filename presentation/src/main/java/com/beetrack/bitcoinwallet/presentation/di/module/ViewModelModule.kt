@@ -2,8 +2,8 @@ package com.beetrack.bitcoinwallet.presentation.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.beetrack.bitcoinwallet.presentation.ui.address.viewModel.AddressViewModel
-import com.beetrack.bitcoinwallet.presentation.ui.state.viewModel.StateViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel.StateViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ViewModelFactory
 import com.beetrack.bitcoinwallet.presentation.util.ViewModelKey
 import dagger.Binds

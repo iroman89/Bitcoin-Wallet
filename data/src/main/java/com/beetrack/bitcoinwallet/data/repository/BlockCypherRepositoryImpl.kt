@@ -8,6 +8,7 @@ import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
 import com.beetrack.bitcoinwallet.domain.model.addressBalance.AddressBalanceModel
 import com.beetrack.bitcoinwallet.domain.repository.BlockCypherRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -16,12 +17,12 @@ class BlockCypherRepositoryImpl @Inject constructor(
     private val local: LocalDataSource,
 ) : BlockCypherRepository {
 
-
     @Throws(Exception::class)
     override suspend fun getAddress(): Flow<AddressKeychainModel> {
-        return local.getAddress().map {
-            it.single().toModel()
-        }
+        return local.getAddress()
+            .map {
+                it.single().toModel()
+            }
     }
 
     @Throws(Exception::class)
@@ -33,8 +34,9 @@ class BlockCypherRepositoryImpl @Inject constructor(
         local.insertAddress(address.toEntity())
     }
 
-    override suspend fun getAddressBalance(): Flow<AddressBalanceModel> =
-        local.getAddressBalance().map {
-            it.single().toModel()
-        }
+    @Throws(Exception::class)
+    override suspend fun getAddressBalance(): AddressBalanceModel =
+        local.getAddress().firstOrNull()?.firstOrNull()?.let {
+            remote.getAddressBalance(it.address).toModel()
+        } ?: throw IllegalArgumentException("No Address argument")
 }

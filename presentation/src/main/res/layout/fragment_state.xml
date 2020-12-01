@@ -6,17 +6,33 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/address_value"
-        android:layout_width="0dp"
+        android:id="@+id/address_label"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/address"
+        app:layout_constraintEnd_toStartOf="@+id/address_value"
+        app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/address_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/address_label"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="sdkljfskldjfklsjdkljkljkljsdflkjsdfjlk" />
 
@@ -38,10 +54,10 @@
         android:id="@+id/balance_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="@string/balance"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         app:layout_constraintEnd_toStartOf="@+id/balance_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address_qr" />
@@ -50,7 +66,7 @@
         android:id="@+id/balance_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="20dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/balance_label"
@@ -61,10 +77,10 @@
         android:id="@+id/unconfirmed_balance_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="@string/unconfirmed_balance"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         app:layout_constraintEnd_toStartOf="@+id/unconfirmed_balance_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/balance_label" />
@@ -73,7 +89,7 @@
         android:id="@+id/unconfirmed_balance_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="20dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/unconfirmed_balance_label"
@@ -84,10 +100,10 @@
         android:id="@+id/final_balance_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="@string/final_balance"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         app:layout_constraintEnd_toStartOf="@+id/final_balance_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/unconfirmed_balance_label" />
@@ -96,11 +112,32 @@
         android:id="@+id/final_balance_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="20dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/final_balance_label"
         app:layout_constraintTop_toTopOf="@+id/final_balance_label"
         tools:text="1293781289038" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/normal_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="address_label
+        ,address_value
+        ,address_qr
+        ,balance_label
+        ,balance_value
+        ,unconfirmed_balance_label
+        ,unconfirmed_balance_value
+        ,final_balance_label
+        ,final_balance_value" />
+
+    <include
+        android:id="@+id/progress_screen"
+        layout="@layout/progress_layout"
+        android:visibility="visible"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

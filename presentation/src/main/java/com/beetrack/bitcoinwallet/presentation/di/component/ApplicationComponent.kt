@@ -2,9 +2,12 @@ package com.beetrack.bitcoinwallet.presentation.di.component
 
 import android.content.Context
 import com.beetrack.bitcoinwallet.presentation.BitcoinWalletApplication
-import com.beetrack.bitcoinwallet.presentation.di.module.*
-import com.beetrack.bitcoinwallet.presentation.ui.address.AddressGenerationFragment
-import com.beetrack.bitcoinwallet.presentation.ui.state.StateFragment
+import com.beetrack.bitcoinwallet.presentation.di.module.DatabaseModule
+import com.beetrack.bitcoinwallet.presentation.di.module.RepositoryModule
+import com.beetrack.bitcoinwallet.presentation.di.module.RetrofitModule
+import com.beetrack.bitcoinwallet.presentation.di.module.ViewModelModule
+import com.beetrack.bitcoinwallet.presentation.ui.address.generator.AddressGenerationFragment
+import com.beetrack.bitcoinwallet.presentation.ui.address.state.StateFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -16,7 +19,6 @@ import javax.inject.Singleton
         RepositoryModule::class,
         ViewModelModule::class,
         DatabaseModule::class,
-        WorkerModule::class
     ]
 )
 interface ApplicationComponent {

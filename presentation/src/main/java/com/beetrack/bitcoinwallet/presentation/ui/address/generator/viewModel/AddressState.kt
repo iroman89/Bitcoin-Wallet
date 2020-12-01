@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.viewModel
+package com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel
 
 import com.beetrack.bitcoinwallet.domain.util.Failure
 

@@ -1,18 +1,14 @@
-package com.beetrack.bitcoinwallet.presentation.ui.state.viewModel
+package com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.beetrack.bitcoinwallet.domain.model.addressBalance.AddressBalanceModel
 import com.beetrack.bitcoinwallet.domain.useCase.GetAddressBalanceUseCase
-import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.domain.util.toFailure
 import com.beetrack.bitcoinwallet.presentation.util.BaseViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,12 +27,7 @@ class StateViewModel @Inject constructor(private val getAddressBalanceUseCase: G
             runCatching {
                 getAddressBalanceUseCase.invoke(null)
             }.onSuccess {
-                it.catch {
-                    _addressBalanceLiveData.postFailure(Failure.Empty)
-                }.distinctUntilChanged()
-                    .collect { addressBalance ->
-                        _addressBalanceLiveData.postSuccess(addressBalance)
-                    }
+                _addressBalanceLiveData.postSuccess(it)
             }.onFailure {
                 _addressBalanceLiveData.postFailure(it.toFailure())
             }

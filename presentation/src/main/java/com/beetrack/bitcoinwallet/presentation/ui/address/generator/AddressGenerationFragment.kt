@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address
+package com.beetrack.bitcoinwallet.presentation.ui.address.generator
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import com.beetrack.bitcointwallet.presentation.databinding.FragmentAddressBindi
 import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
-import com.beetrack.bitcoinwallet.presentation.ui.address.viewModel.AddressState
-import com.beetrack.bitcoinwallet.presentation.ui.address.viewModel.AddressViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressState
+import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressViewModel
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
 import com.beetrack.bitcoinwallet.presentation.util.extension.*
 import com.beetrack.bitcoinwallet.presentation.util.toBitmapQR
@@ -45,7 +45,6 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-
             val generateAddressClickListener = View.OnClickListener {
                 if (!requireContext().hasNetworkAvailable()) {
                     manageFailure(Failure.NetworkConnection)
@@ -77,7 +76,10 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
                     })
             }
         }
-        addressViewModel.getAddress()
+
+        addressViewModel.getAddressLiveData.value?.also {
+            handleAddressState(it)
+        } ?: addressViewModel.getAddress()
     }
 
     private fun handleAddressState(addressState: AddressState<AddressKeychainModel>) =

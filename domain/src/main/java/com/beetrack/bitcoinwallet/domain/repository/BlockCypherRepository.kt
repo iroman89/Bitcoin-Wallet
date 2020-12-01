@@ -16,5 +16,5 @@ interface BlockCypherRepository {
     suspend fun saveAddress(address: AddressKeychainModel)
 
     @Throws(Exception::class)
-    suspend fun getAddressBalance(): Flow<AddressBalanceModel>
+    suspend fun getAddressBalance(): AddressBalanceModel
 }
