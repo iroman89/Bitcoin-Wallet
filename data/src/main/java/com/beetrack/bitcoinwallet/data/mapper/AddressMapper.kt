@@ -2,7 +2,7 @@ package com.beetrack.bitcoinwallet.data.mapper
 
 import com.beetrack.bitcoinwallet.data.local.entity.AddressKeychainEntity
 import com.beetrack.bitcoinwallet.data.remote.data.AddressKeychainData
-import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
+import com.beetrack.bitcoinwallet.domain.model.AddressKeychainModel
 
 fun AddressKeychainData.toModel(): AddressKeychainModel =
     AddressKeychainModel(

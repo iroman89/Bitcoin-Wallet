@@ -25,4 +25,9 @@
     <string name="final_balance">Final balance:</string>
     <string name="getting_address_balance_progress">Getting balance…</string>
     <string name="refresh">Refresh</string>
+    <string name="address_generator">Address Generator</string>
+    <string name="wallet_state">Wallet State</string>
+    <string name="getting_historial_transaction">Getting transactions…</string>
+    <string name="no_transactions">You don\'t have transactions</string>
+    <string name="history_transactions">Transaction History</string>
 </resources>

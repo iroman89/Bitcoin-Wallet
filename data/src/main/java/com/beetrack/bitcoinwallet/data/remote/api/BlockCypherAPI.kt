@@ -1,6 +1,7 @@
 package com.beetrack.bitcoinwallet.data.remote.api
 
 import com.beetrack.bitcoinwallet.data.remote.data.AddressBalanceData
+import com.beetrack.bitcoinwallet.data.remote.data.AddressFullTransactionData
 import com.beetrack.bitcoinwallet.data.remote.data.AddressKeychainData
 import retrofit2.Call
 import retrofit2.http.GET
@@ -14,4 +15,7 @@ interface BlockCypherAPI {
 
     @GET("addrs/{address}/balance")
     fun getAddressBalance(@Path("address") address: String): Call<AddressBalanceData>
+
+    @GET("addrs/{address}/full")
+    fun getAddressFullTransactions(@Path("address") address: String): Call<AddressFullTransactionData>
 }

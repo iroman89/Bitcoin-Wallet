@@ -7,6 +7,7 @@ import com.beetrack.bitcoinwallet.presentation.di.module.RepositoryModule
 import com.beetrack.bitcoinwallet.presentation.di.module.RetrofitModule
 import com.beetrack.bitcoinwallet.presentation.di.module.ViewModelModule
 import com.beetrack.bitcoinwallet.presentation.ui.address.generator.AddressGenerationFragment
+import com.beetrack.bitcoinwallet.presentation.ui.address.history.HistoryFragment
 import com.beetrack.bitcoinwallet.presentation.ui.address.state.StateFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -34,4 +35,5 @@ interface ApplicationComponent {
     fun inject(bitcoinWalletApplication: BitcoinWalletApplication)
     fun inject(addressGenerationFragment: AddressGenerationFragment)
     fun inject(stateFragment: StateFragment)
+    fun inject(historyFragment: HistoryFragment)
 }

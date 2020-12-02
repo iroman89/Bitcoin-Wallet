@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
+import com.beetrack.bitcoinwallet.domain.model.AddressKeychainModel
 import com.beetrack.bitcoinwallet.domain.useCase.GenerateAddressUseCase
 import com.beetrack.bitcoinwallet.domain.useCase.GetAddressUseCase
 import com.beetrack.bitcoinwallet.domain.useCase.SaveAddressUseCase

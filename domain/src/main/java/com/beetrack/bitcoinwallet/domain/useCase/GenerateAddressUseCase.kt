@@ -1,6 +1,6 @@
 package com.beetrack.bitcoinwallet.domain.useCase
 
-import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
+import com.beetrack.bitcoinwallet.domain.model.AddressKeychainModel
 import com.beetrack.bitcoinwallet.domain.repository.BlockCypherRepository
 import com.beetrack.bitcoinwallet.domain.util.BaseUseCase
 import javax.inject.Inject

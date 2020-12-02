@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.beetrack.bitcointwallet.presentation.R
 import com.beetrack.bitcointwallet.presentation.databinding.FragmentAddressBinding
-import com.beetrack.bitcoinwallet.domain.model.address.AddressKeychainModel
+import com.beetrack.bitcoinwallet.domain.model.AddressKeychainModel
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
 import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressState
@@ -44,6 +45,8 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().setToolbarTitle(getString(R.string.address_generator))
+
         with(binding) {
             val generateAddressClickListener = View.OnClickListener {
                 if (!requireContext().hasNetworkAvailable()) {
@@ -51,6 +54,10 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
                     return@OnClickListener
                 }
                 addressViewModel.generateAddress()
+            }
+
+            addressValue.setOnClickListener {
+                requireContext().copyInClipboard("Address", (it as TextView).text.toString())
             }
 
             newAddress.setOnClickListener(generateAddressClickListener)
@@ -105,8 +112,8 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
 
     private fun saveAddressSuccess() =
         hideProgress {
-            binding.saveAddress.isEnabled = false
             requireActivity().toast(getString(R.string.address_saved))
+            binding.saveAddress.isEnabled = false
         }
 
     private fun manageFailure(failure: Failure?) =

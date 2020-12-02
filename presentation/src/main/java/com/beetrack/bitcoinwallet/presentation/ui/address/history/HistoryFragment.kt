@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.state
+package com.beetrack.bitcoinwallet.presentation.ui.address.history
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,80 +6,80 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.beetrack.bitcointwallet.presentation.R
-import com.beetrack.bitcointwallet.presentation.databinding.FragmentStateBinding
-import com.beetrack.bitcoinwallet.domain.model.AddressBalanceModel
+import com.beetrack.bitcointwallet.presentation.databinding.FragmentHistoryBinding
+import com.beetrack.bitcoinwallet.domain.model.AddressTransactionModel
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
-import com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel.StateViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.history.adapter.TransactionAdapter
+import com.beetrack.bitcoinwallet.presentation.ui.address.history.viewModel.HistoryViewModel
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
 import com.beetrack.bitcoinwallet.presentation.util.extension.gone
 import com.beetrack.bitcoinwallet.presentation.util.extension.setToolbarTitle
 import com.beetrack.bitcoinwallet.presentation.util.extension.toast
 import com.beetrack.bitcoinwallet.presentation.util.extension.visible
-import com.beetrack.bitcoinwallet.presentation.util.toBitmapQR
 
-class StateFragment : BaseFragment<FragmentStateBinding>() {
+class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
 
-    private val stateViewModel: StateViewModel by viewModels { viewModelFactory }
+    private val historyViewModel: HistoryViewModel by viewModels { viewModelFactory }
 
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentStateBinding =
-        FragmentStateBinding.inflate(layoutInflater, container, false)
+    override fun setBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+    ): FragmentHistoryBinding = FragmentHistoryBinding.inflate(inflater, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         appComponent().inject(this)
         subscribe()
     }
 
     private fun subscribe() {
-        observe(stateViewModel.addressBalanceLiveData) {
+        observe(historyViewModel.historyTransactionLiveData) {
             it?.also {
-                handleAddressBalanceState(it)
+                handleHistoryTransactionState(it)
             }
+        }
+    }
+
+    private fun handleHistoryTransactionState(state: ResourceState<AddressTransactionModel>) {
+        when (state) {
+            is ResourceState.Loading -> showProgress()
+            is ResourceState.Success -> historyTransactionSuccess(state.data)
+            is ResourceState.Error -> manageFailure(state.failure)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().setToolbarTitle(getString(R.string.wallet_state))
+        requireActivity().setToolbarTitle(getString(R.string.history_transactions))
 
         with(binding) {
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = false
-                stateViewModel.getAddressBalance()
+                historyViewModel.getTransactions()
             }
         }
 
-        stateViewModel.addressBalanceLiveData.value?.also {
-            handleAddressBalanceState(it)
-        } ?: stateViewModel.getAddressBalance()
+        historyViewModel.historyTransactionLiveData.value?.also {
+            handleHistoryTransactionState(it)
+        } ?: historyViewModel.getTransactions()
     }
 
-    private fun handleAddressBalanceState(state: ResourceState<AddressBalanceModel>) {
-        when (state) {
-            is ResourceState.Loading -> showProgress()
-            is ResourceState.Success -> addressBalanceSuccess(state.data)
-            is ResourceState.Error -> manageFailure(state.failure)
-        }
-    }
-
-    private fun addressBalanceSuccess(data: AddressBalanceModel?) =
+    private fun historyTransactionSuccess(data: AddressTransactionModel?) {
         hideProgress {
-            with(binding) {
-                addressValue.text = data?.address
-                addressQr.setImageBitmap(data?.address?.toBitmapQR())
-                balanceValue.text = data?.balance?.toString()
-                unconfirmedBalanceValue.text = data?.unconfirmedBalance?.toString()
-                finalBalanceValue.text = data?.finalBalance?.toString()
+            data?.transactions?.also {
+                binding.historyList.adapter =
+                    TransactionAdapter(it)
             }
         }
+    }
 
     private fun manageFailure(failure: Failure?) =
         hideProgress {
             when (failure) {
+                Failure.Empty -> showEmpty()
                 Failure.NetworkConnection -> requireActivity().toast(getString(R.string.network_error))
                 else -> {
                     requireActivity().toast(getString(R.string.generic_error))
@@ -87,12 +87,19 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
             }
         }
 
+    private fun showEmpty() =
+        with(binding) {
+            progressScreen.gone()
+            historyList.gone()
+            emptyScreen.visible()
+        }
+
     private fun showProgress() {
         with(binding) {
             progressScreen.visible()
             progressScreen.progressMessage.text =
-                getString(R.string.getting_address_balance_progress)
-            normalView.gone()
+                getString(R.string.getting_historial_transaction)
+            historyList.gone()
         }
     }
 
@@ -103,7 +110,7 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
             with(binding) {
                 swipeRefresh.isRefreshing = false
                 progressScreen.gone()
-                normalView.visible()
+                historyList.visible()
             }
         }
 }

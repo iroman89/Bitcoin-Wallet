@@ -3,7 +3,7 @@ package com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.beetrack.bitcoinwallet.domain.model.addressBalance.AddressBalanceModel
+import com.beetrack.bitcoinwallet.domain.model.AddressBalanceModel
 import com.beetrack.bitcoinwallet.domain.useCase.GetAddressBalanceUseCase
 import com.beetrack.bitcoinwallet.domain.util.toFailure
 import com.beetrack.bitcoinwallet.presentation.util.BaseViewModel

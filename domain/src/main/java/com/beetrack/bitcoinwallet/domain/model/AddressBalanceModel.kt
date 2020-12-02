@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.domain.model.addressBalance
+package com.beetrack.bitcoinwallet.domain.model
 
 data class AddressBalanceModel(
 

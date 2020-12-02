@@ -16,4 +16,10 @@
         android:name="com.beetrack.bitcoinwallet.presentation.ui.address.state.StateFragment"
         android:label="StateFragment"
         tools:layout="@layout/fragment_state" />
+
+    <fragment
+        android:id="@+id/history"
+        android:name="com.beetrack.bitcoinwallet.presentation.ui.address.history.HistoryFragment"
+        android:label="HistoryFragment"
+        tools:layout="@layout/fragment_history" />
 </navigation>

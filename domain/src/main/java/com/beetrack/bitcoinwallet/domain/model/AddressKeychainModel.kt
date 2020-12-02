@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.domain.model.address
+package com.beetrack.bitcoinwallet.domain.model
 
 data class AddressKeychainModel(
 
