@@ -28,7 +28,6 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         appComponent().inject(this)
         subscribe()
     }
@@ -70,7 +69,7 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
         hideProgress {
             with(binding) {
                 addressValue.text = data?.address
-                addressQr.setImageBitmap(data?.address?.toBitmapQR())
+                addressQr.setImageBitmap(data?.address?.toBitmapQR(200, 200))
                 balanceValue.text = data?.balance?.toString()
                 unconfirmedBalanceValue.text = data?.unconfirmedBalance?.toString()
                 finalBalanceValue.text = data?.finalBalance?.toString()
