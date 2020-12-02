@@ -6,7 +6,7 @@
     <string name="address">Address</string>
     <string name="state">State</string>
     <string name="history">History</string>
-    <string name="not_address_generated">Not Address Saved</string>
+    <string name="not_address_saved">Not Address Saved</string>
     <string name="start">Start</string>
     <string name="network_error">No has internet connection</string>
     <string name="generic_error">An error has occurred, try again</string>

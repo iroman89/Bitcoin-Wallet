@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/empty_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:contentDescription="@string/your_address"
         app:layout_constraintBottom_toTopOf="@+id/empty_message"
@@ -18,7 +18,9 @@
         android:id="@+id/empty_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/not_address_generated"
+        android:fontFamily="@font/source_sans_pro_bold"
+        android:text="@string/not_address_saved"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +34,8 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:text="@string/start"
+        android:textAllCaps="false"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/empty_message" />

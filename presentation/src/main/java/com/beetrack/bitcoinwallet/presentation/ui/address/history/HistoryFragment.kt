@@ -77,13 +77,11 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     }
 
     private fun manageFailure(failure: Failure?) =
-        hideProgress {
-            when (failure) {
-                Failure.Empty -> showEmpty()
-                Failure.NetworkConnection -> requireActivity().toast(getString(R.string.network_error))
-                else -> {
-                    requireActivity().toast(getString(R.string.generic_error))
-                }
+        when (failure) {
+            Failure.Empty -> showEmpty()
+            Failure.NetworkConnection -> requireActivity().toast(getString(R.string.network_error))
+            else -> {
+                requireActivity().toast(getString(R.string.generic_error))
             }
         }
 
@@ -100,6 +98,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             progressScreen.progressMessage.text =
                 getString(R.string.getting_historial_transaction)
             historyList.gone()
+            emptyScreen.gone()
         }
     }
 
@@ -111,6 +110,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
                 swipeRefresh.isRefreshing = false
                 progressScreen.gone()
                 historyList.visible()
+                emptyScreen.gone()
             }
         }
 }
