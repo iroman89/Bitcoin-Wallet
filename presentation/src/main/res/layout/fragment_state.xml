@@ -17,62 +17,79 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:ellipsize="end"
+            android:fontFamily="@font/source_sans_pro_bold"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/your_address"
-            app:layout_constraintEnd_toStartOf="@+id/address_value"
-            app:layout_constraintHorizontal_weight="0.5"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/address_value"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/address_qr"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/address_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:textAlignment="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/address_label"
-            app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/source_sans_pro_reg"
+            android:maxLines="2"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/address_qr"
+            app:layout_constraintEnd_toStartOf="@id/address_qr"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/address_label"
             tools:text="sdkljfskldjfklsjdkljkljkljsdflkjsdfjlk" />
 
         <ImageView
             android:id="@+id/address_qr"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="30dp"
             android:contentDescription="@string/your_address"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address_value"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/qr_image" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/gradient_divider"
+            app:layout_constraintTop_toBottomOf="@+id/address_qr" />
 
         <TextView
             android:id="@+id/balance_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/source_sans_pro_bold"
+            android:padding="10dp"
             android:text="@string/balance"
             android:textAlignment="textStart"
+            android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/balance_value"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address_qr" />
+            app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <TextView
             android:id="@+id/balance_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:textAlignment="center"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/source_sans_pro_reg"
+            android:padding="10dp"
+            android:textAlignment="textEnd"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/balance_label"
             app:layout_constraintTop_toTopOf="@+id/balance_label"
@@ -82,10 +99,13 @@
             android:id="@+id/unconfirmed_balance_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/source_sans_pro_bold"
+            android:padding="10dp"
             android:text="@string/unconfirmed_balance"
             android:textAlignment="textStart"
+            android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/unconfirmed_balance_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/balance_label" />
@@ -94,8 +114,11 @@
             android:id="@+id/unconfirmed_balance_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:textAlignment="center"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/source_sans_pro_reg"
+            android:padding="10dp"
+            android:textAlignment="textEnd"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/unconfirmed_balance_label"
             app:layout_constraintTop_toTopOf="@+id/unconfirmed_balance_label"
@@ -105,10 +128,13 @@
             android:id="@+id/final_balance_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/source_sans_pro_bold"
+            android:padding="10dp"
             android:text="@string/final_balance"
             android:textAlignment="textStart"
+            android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/final_balance_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/unconfirmed_balance_label" />
@@ -117,8 +143,11 @@
             android:id="@+id/final_balance_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:textAlignment="center"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/source_sans_pro_reg"
+            android:padding="10dp"
+            android:textAlignment="textEnd"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/final_balance_label"
             app:layout_constraintTop_toTopOf="@+id/final_balance_label"
@@ -137,13 +166,15 @@
         ,unconfirmed_balance_label
         ,unconfirmed_balance_value
         ,final_balance_label
-        ,final_balance_value" />
+        ,final_balance_value
+        ,divider"
+            tools:visibility="visible" />
 
         <include
             android:id="@+id/progress_screen"
             layout="@layout/progress_layout"
             android:visibility="visible"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
