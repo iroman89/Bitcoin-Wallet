@@ -11,6 +11,7 @@ import com.beetrack.bitcoinwallet.domain.useCase.SaveAddressUseCase
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.domain.util.toFailure
 import com.beetrack.bitcoinwallet.presentation.util.SingleShotLiveData
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

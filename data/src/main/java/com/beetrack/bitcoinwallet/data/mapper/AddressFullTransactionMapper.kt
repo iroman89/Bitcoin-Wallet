@@ -5,5 +5,8 @@ import com.beetrack.bitcoinwallet.domain.model.AddressTransactionModel
 
 fun AddressFullTransactionData.toModel(): AddressTransactionModel =
     AddressTransactionModel(this.txs?.map {
-        AddressTransactionModel.TransactionItem(it?.total, it?.received)
+        AddressTransactionModel.TransactionItem(it?.outputs?.firstOrNull { outputsItem ->
+            outputsItem?.scriptType == "pay-to-pubkey-hash"
+        }?.value,
+            it?.received)
     })

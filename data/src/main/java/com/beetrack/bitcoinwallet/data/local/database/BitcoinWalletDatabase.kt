@@ -9,7 +9,8 @@ import com.beetrack.bitcoinwallet.data.local.entity.AddressKeychainEntity
 @Database(
     entities = [
         AddressKeychainEntity::class],
-    version = DATABASE_VERSION
+    version = DATABASE_VERSION,
+    exportSchema = false
 )
 abstract class BitcoinWalletDatabase : RoomDatabase() {
     abstract val addressDao: AddressDao

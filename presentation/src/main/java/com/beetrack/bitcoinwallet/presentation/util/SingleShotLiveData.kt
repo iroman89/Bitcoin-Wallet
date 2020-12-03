@@ -1,3 +1,5 @@
+@file:Suppress("TYPE_INFERENCE_ONLY_INPUT_TYPES_WARNING")
+
 package com.beetrack.bitcoinwallet.presentation.util
 
 import androidx.annotation.MainThread

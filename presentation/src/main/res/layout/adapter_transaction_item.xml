@@ -7,26 +7,49 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
+        android:id="@+id/date_label"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/source_sans_pro_bold"
+        android:text="@string/date"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/amount"
+        app:layout_constraintEnd_toStartOf="@+id/amount_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="24 Nov 2020" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/amount"
+        android:id="@+id/date_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/source_sans_pro_reg"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/amount_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_label"
+        tools:text="24 Nov 2020" />
+
+    <TextView
+        android:id="@+id/amount_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/source_sans_pro_bold"
+        android:text="@string/total"
+        android:textSize="16sp"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/date_label"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/amount_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/source_sans_pro_semibold"
         android:textAlignment="textEnd"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/date"
-        app:layout_constraintTop_toTopOf="@+id/date"
+        app:layout_constraintStart_toEndOf="@+id/date_value"
+        app:layout_constraintTop_toBottomOf="@+id/amount_label"
         tools:text="0.001010" />
 
 

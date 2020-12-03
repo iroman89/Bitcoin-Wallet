@@ -63,7 +63,7 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
             }
 
             newAddress.setOnClickListener(generateAddressClickListener)
-            emptyScreen.emptyStart.setOnClickListener(generateAddressClickListener)
+            errorScreen.errorButton.setOnClickListener(generateAddressClickListener)
 
             saveAddress.isEnabled = false
             saveAddress.setOnClickListener {
@@ -137,17 +137,18 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
 
     private fun showProgress(message: String = getString(R.string.generic_progress)) =
         with(binding) {
-            progressScreen.visible()
             progressScreen.progressMessage.text = message
             normalView.gone()
-            emptyScreen.gone()
+            errorScreen.gone()
+            progressScreen.visible()
         }
 
     private fun showEmpty() =
         with(binding) {
             progressScreen.gone()
             normalView.gone()
-            emptyScreen.visible()
+            errorScreen.errorMessage.text = getString(R.string.not_address_saved)
+            errorScreen.visible()
         }
 
     private fun hideProgress(func: () -> Unit) =
@@ -156,7 +157,7 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
         } finally {
             with(binding) {
                 progressScreen.gone()
-                emptyScreen.gone()
+                errorScreen.gone()
                 normalView.visible()
             }
         }

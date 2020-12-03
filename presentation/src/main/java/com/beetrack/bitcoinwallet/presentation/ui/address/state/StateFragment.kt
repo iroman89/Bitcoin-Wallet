@@ -12,11 +12,9 @@ import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
 import com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel.StateViewModel
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
+import com.beetrack.bitcoinwallet.presentation.util.DecimalFormat
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
-import com.beetrack.bitcoinwallet.presentation.util.extension.gone
-import com.beetrack.bitcoinwallet.presentation.util.extension.setToolbarTitle
-import com.beetrack.bitcoinwallet.presentation.util.extension.toast
-import com.beetrack.bitcoinwallet.presentation.util.extension.visible
+import com.beetrack.bitcoinwallet.presentation.util.extension.*
 import com.beetrack.bitcoinwallet.presentation.util.toBitmapQR
 
 class StateFragment : BaseFragment<FragmentStateBinding>() {
@@ -52,7 +50,15 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
 
         stateViewModel.addressBalanceLiveData.value?.also {
             handleAddressBalanceState(it)
-        } ?: stateViewModel.getAddressBalance()
+        } ?: getAddressBalance()
+    }
+
+    private fun getAddressBalance() {
+        if (!requireContext().hasNetworkAvailable()) {
+            manageFailure(Failure.NetworkConnection)
+            return
+        }
+        stateViewModel.getAddressBalance()
     }
 
     private fun handleAddressBalanceState(state: ResourceState<AddressBalanceModel>) {
@@ -68,20 +74,36 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
             with(binding) {
                 addressValue.text = data?.address
                 addressQr.setImageBitmap(data?.address?.toBitmapQR(200, 200))
-                balanceValue.text = data?.balance?.toString()
-                unconfirmedBalanceValue.text = data?.unconfirmedBalance?.toString()
-                finalBalanceValue.text = data?.finalBalance?.toString()
+                balanceValue.text = DecimalFormat.format(data?.balance)
+                unconfirmedBalanceValue.text = DecimalFormat.format(data?.unconfirmedBalance)
+                finalBalanceValue.text = DecimalFormat.format(data?.finalBalance)
             }
         }
 
     private fun manageFailure(failure: Failure?) =
-        hideProgress {
-            when (failure) {
-                Failure.NetworkConnection -> requireActivity().toast(getString(R.string.network_error))
-                else -> {
-                    requireActivity().toast(getString(R.string.generic_error))
-                }
-            }
+        when (failure) {
+            Failure.Empty -> showEmpty()
+            Failure.NetworkConnection -> requireActivity().toast(getString(R.string.network_error))
+            else -> showError()
+        }
+
+    private fun showError() {
+        with(binding) {
+            progressScreen.gone()
+            normalView.gone()
+            errorScreen?.errorMessage?.text = getString(R.string.generic_error)
+            errorScreen?.errorButton?.gone()
+            errorScreen?.visible()
+        }
+    }
+
+    private fun showEmpty() =
+        with(binding) {
+            progressScreen.gone()
+            normalView.gone()
+            errorScreen?.errorMessage?.text = getString(R.string.not_address_saved)
+            errorScreen?.errorButton?.gone()
+            errorScreen?.visible()
         }
 
     private fun showProgress() {
@@ -100,6 +122,7 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
             with(binding) {
                 swipeRefresh.isRefreshing = false
                 progressScreen.gone()
+                errorScreen?.gone()
                 normalView.visible()
             }
         }

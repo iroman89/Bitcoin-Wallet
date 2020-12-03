@@ -101,8 +101,8 @@
         tools:visibility="gone" />
 
     <include
-        android:id="@+id/empty_screen"
-        layout="@layout/address_empty_layout"
+        android:id="@+id/error_screen"
+        layout="@layout/error_layout"
         android:visibility="gone"
         tools:visibility="gone" />
 

@@ -64,6 +64,26 @@ class StateViewModelTest : BaseMockitoTest() {
     }
 
     @Test
+    fun `get AddressBalance Empty State`() = runBlockingTest {
+
+        val exception = IllegalArgumentException()
+        Mockito.`when`(repository.getAddressBalance()).thenThrow(exception)
+
+        stateViewModel.getAddressBalance()
+
+        coroutinesTestRule.testDispatcher.advanceUntilIdle()
+
+        Mockito.verify(observer, Mockito.times(2)).onChanged(
+            argumentCaptor.capture()
+        )
+
+        with(argumentCaptor.value) {
+            assert(this is ResourceState.Error)
+            assert(this.failure is Failure.Empty)
+        }
+    }
+
+    @Test
     fun `get AddressBalance Error State`() = runBlockingTest {
 
         val exception = Exception("An error has occurred")
@@ -81,6 +101,4 @@ class StateViewModelTest : BaseMockitoTest() {
             assertSame((this.failure as Failure.Error).throwable, exception)
         }
     }
-
-
 }

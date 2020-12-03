@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.beetrack.bitcoinwallet.domain.model.AddressBalanceModel
 import com.beetrack.bitcoinwallet.domain.useCase.GetAddressBalanceUseCase
+import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.domain.util.toFailure
 import com.beetrack.bitcoinwallet.presentation.util.BaseViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,7 +30,13 @@ class StateViewModel @Inject constructor(private val getAddressBalanceUseCase: G
             }.onSuccess {
                 _addressBalanceLiveData.postSuccess(it)
             }.onFailure {
-                _addressBalanceLiveData.postFailure(it.toFailure())
+                when (it) {
+                    is IllegalArgumentException -> {
+                        delay(600)
+                        _addressBalanceLiveData.postFailure(Failure.Empty)
+                    }
+                    else -> _addressBalanceLiveData.postFailure(it.toFailure())
+                }
             }
         }
     }

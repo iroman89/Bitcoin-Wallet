@@ -9,6 +9,7 @@ import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.domain.util.toFailure
 import com.beetrack.bitcoinwallet.presentation.util.BaseViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,12 +29,19 @@ class HistoryViewModel @Inject constructor(private val getTransactionsUseCase: G
                 getTransactionsUseCase.invoke(null)
             }.onSuccess {
                 if (it.transactions?.isEmpty() == true) {
-                    _historyTransactionLiveData.postFailure(Failure.Empty)
+                    delay(600)
+                    _historyTransactionLiveData.postFailure(Failure.NoTransaction)
                 } else {
                     _historyTransactionLiveData.postSuccess(it)
                 }
             }.onFailure {
-                _historyTransactionLiveData.postFailure(it.toFailure())
+                when (it) {
+                    is IllegalArgumentException -> {
+                        delay(600)
+                        _historyTransactionLiveData.postFailure(Failure.Empty)
+                    }
+                    else -> _historyTransactionLiveData.postFailure(it.toFailure())
+                }
             }
         }
     }

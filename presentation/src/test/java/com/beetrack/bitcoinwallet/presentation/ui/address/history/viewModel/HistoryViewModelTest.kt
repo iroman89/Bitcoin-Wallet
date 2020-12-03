@@ -74,12 +74,14 @@ class HistoryViewModelTest : BaseMockitoTest() {
 
         historyViewModel.getTransactions()
 
+        coroutinesTestRule.testDispatcher.advanceUntilIdle()
+
         Mockito.verify(observer, Mockito.times(2))
             .onChanged(argumentCaptor.capture())
 
         with(argumentCaptor.value) {
             assert(this is ResourceState.Error)
-            assertSame(this.failure, Failure.Empty)
+            assertSame(this.failure, Failure.NoTransaction)
         }
     }
 
@@ -90,6 +92,8 @@ class HistoryViewModelTest : BaseMockitoTest() {
         Mockito.`when`(repository.getAddressTransaction()).thenThrow(exception)
 
         historyViewModel.getTransactions()
+
+        coroutinesTestRule.testDispatcher.advanceUntilIdle()
 
         Mockito.verify(observer, Mockito.times(2))
             .onChanged(argumentCaptor.capture())

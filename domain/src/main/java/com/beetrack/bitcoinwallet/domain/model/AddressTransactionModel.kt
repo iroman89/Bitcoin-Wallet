@@ -7,7 +7,7 @@ data class AddressTransactionModel(
     ) {
     data class TransactionItem(
 
-        val total: Int? = null,
+        val total: Long? = null,
 
         val received: String? = null,
     )

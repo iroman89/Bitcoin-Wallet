@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.beetrack.bitcointwallet.presentation.R
 import com.beetrack.bitcointwallet.presentation.databinding.FragmentHistoryBinding
 import com.beetrack.bitcoinwallet.domain.model.AddressTransactionModel
@@ -14,10 +15,7 @@ import com.beetrack.bitcoinwallet.presentation.ui.address.history.adapter.Transa
 import com.beetrack.bitcoinwallet.presentation.ui.address.history.viewModel.HistoryViewModel
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
-import com.beetrack.bitcoinwallet.presentation.util.extension.gone
-import com.beetrack.bitcoinwallet.presentation.util.extension.setToolbarTitle
-import com.beetrack.bitcoinwallet.presentation.util.extension.toast
-import com.beetrack.bitcoinwallet.presentation.util.extension.visible
+import com.beetrack.bitcoinwallet.presentation.util.extension.*
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
 
@@ -62,32 +60,47 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
 
         historyViewModel.historyTransactionLiveData.value?.also {
             handleHistoryTransactionState(it)
-        } ?: historyViewModel.getTransactions()
+        } ?: getTransactions()
+    }
+
+    private fun getTransactions() {
+        if (!requireContext().hasNetworkAvailable()) {
+            manageFailure(Failure.NetworkConnection)
+            return
+        }
+        historyViewModel.getTransactions()
     }
 
     private fun historyTransactionSuccess(data: AddressTransactionModel?) {
         hideProgress {
             data?.transactions?.also {
-                binding.historyList.adapter =
-                    TransactionAdapter(it)
+                with(binding.historyList) {
+                    adapter =
+                        TransactionAdapter(it)
+                    addItemDecoration(DividerItemDecoration(requireContext(),
+                        DividerItemDecoration.VERTICAL))
+                }
             }
         }
     }
 
     private fun manageFailure(failure: Failure?) =
         when (failure) {
-            Failure.Empty -> showEmpty()
+            Failure.NoTransaction -> showEmpty(getString(R.string.no_transactions))
+            Failure.Empty -> showEmpty(getString(R.string.not_address_saved))
             Failure.NetworkConnection -> requireActivity().toast(getString(R.string.network_error))
             else -> {
                 requireActivity().toast(getString(R.string.generic_error))
             }
         }
 
-    private fun showEmpty() =
+    private fun showEmpty(message: String) =
         with(binding) {
             progressScreen.gone()
             historyList.gone()
-            emptyScreen.visible()
+            errorScreen.visible()
+            errorScreen.errorButton.gone()
+            errorScreen.errorMessage.text = message
         }
 
     private fun showProgress() {
@@ -96,7 +109,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             progressScreen.progressMessage.text =
                 getString(R.string.getting_historial_transaction)
             historyList.gone()
-            emptyScreen.gone()
+            errorScreen.gone()
         }
     }
 
@@ -108,7 +121,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
                 swipeRefresh.isRefreshing = false
                 progressScreen.gone()
                 historyList.visible()
-                emptyScreen.gone()
+                errorScreen.gone()
             }
         }
 }

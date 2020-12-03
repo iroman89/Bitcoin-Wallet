@@ -4,9 +4,9 @@ data class AddressBalanceModel(
 
     val address: String,
 
-    val finalBalance: Int? = null,
+    val finalBalance: Long? = null,
 
-    val balance: Int? = null,
+    val balance: Long? = null,
 
-    val unconfirmedBalance: Int? = null,
+    val unconfirmedBalance: Long? = null,
 )

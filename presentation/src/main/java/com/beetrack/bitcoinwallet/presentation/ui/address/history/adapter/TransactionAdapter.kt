@@ -1,11 +1,13 @@
 package com.beetrack.bitcoinwallet.presentation.ui.address.history.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.beetrack.bitcointwallet.presentation.databinding.AdapterTransactionItemBinding
 import com.beetrack.bitcoinwallet.domain.model.AddressTransactionModel
 import com.beetrack.bitcoinwallet.presentation.util.DateFormat
+import com.beetrack.bitcoinwallet.presentation.util.DecimalFormat
 
 class TransactionAdapter constructor(private val items: List<AddressTransactionModel.TransactionItem>) :
     RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
@@ -15,12 +17,13 @@ class TransactionAdapter constructor(private val items: List<AddressTransactionM
             parent, false))
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transaction = items[position]
 
         with(transaction) {
             holder.date.text = DateFormat.format(received, "dd-MM-yyyy")
-            holder.amount.text = total.toString()
+            holder.total.text = DecimalFormat.format(total)
         }
     }
 
@@ -29,7 +32,7 @@ class TransactionAdapter constructor(private val items: List<AddressTransactionM
     class ViewHolder(binding: AdapterTransactionItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val date = binding.date
-        val amount = binding.amount
+        val date = binding.dateValue
+        val total = binding.amountValue
     }
 }

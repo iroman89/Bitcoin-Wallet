@@ -1,6 +1,5 @@
 package com.beetrack.bitcoinwallet.presentation.di.module
 
-import android.content.Context
 import com.beetrack.bitcointwallet.presentation.BuildConfig
 import com.beetrack.bitcoinwallet.data.remote.api.BlockCypherAPI
 import com.google.gson.GsonBuilder
@@ -18,7 +17,7 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideHttpClient(context: Context): OkHttpClient {
+    fun provideHttpClient(): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
 
         if (BuildConfig.DEBUG) {

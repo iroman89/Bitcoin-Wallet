@@ -5,17 +5,18 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/empty_icon"
-        android:layout_width="150dp"
+        android:id="@+id/error_icon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:contentDescription="@string/your_address"
-        app:layout_constraintBottom_toTopOf="@+id/empty_message"
+        app:layout_constraintBottom_toTopOf="@+id/error_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/qr_image" />
+        app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/empty_message"
+        android:id="@+id/error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/source_sans_pro_bold"
@@ -27,17 +28,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/empty_start"
+        android:id="@+id/error_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
-        android:text="@string/start"
+        android:text="@string/generate"
         android:textAllCaps="false"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/empty_message" />
+        app:layout_constraintTop_toBottomOf="@+id/error_message" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
