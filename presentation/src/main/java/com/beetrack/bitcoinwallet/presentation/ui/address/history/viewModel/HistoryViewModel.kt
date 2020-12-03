@@ -9,7 +9,6 @@ import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.domain.util.toFailure
 import com.beetrack.bitcoinwallet.presentation.util.BaseViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +21,7 @@ class HistoryViewModel @Inject constructor(private val getTransactionsUseCase: G
         _historyTransactionLiveData
 
     fun getTransactions() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _historyTransactionLiveData.postLoading()
 
             runCatching {

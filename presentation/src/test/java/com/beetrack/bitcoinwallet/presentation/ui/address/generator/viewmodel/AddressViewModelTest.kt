@@ -59,14 +59,12 @@ class AddressViewModelTest : BaseMockitoTest() {
         addressViewModel.addressLiveData.removeObserver(observer)
     }
 
-    private val getAddressResponse: AddressKeychainModel =
-        AddressKeychainModel("dd", "dd", "dd", "dd")
-
     @Test
     fun `getAddress Got State`() = runBlockingTest {
 
+        val addressResponse = AddressKeychainModel()
         val flow = flow {
-            emit(getAddressResponse)
+            emit(addressResponse)
         }
         Mockito.`when`(repository.getAddress()).thenReturn(flow)
 
@@ -78,7 +76,7 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         with(argumentCaptor.value) {
             assert(this is AddressState.Got)
-            assertEquals(this.data, getAddressResponse)
+            assertEquals(this.data, addressResponse)
         }
     }
 
@@ -125,7 +123,8 @@ class AddressViewModelTest : BaseMockitoTest() {
     @Test
     fun `generate Address Generated State`() = runBlockingTest {
 
-        Mockito.`when`(repository.generateAddress()).thenReturn(getAddressResponse)
+        val addressResponse = AddressKeychainModel()
+        Mockito.`when`(repository.generateAddress()).thenReturn(addressResponse)
 
         addressViewModel.generateAddress()
 
@@ -135,7 +134,7 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         with(argumentCaptor.value) {
             assert(this is AddressState.Generated)
-            assertEquals(this.data, getAddressResponse)
+            assertEquals(this.data, addressResponse)
         }
     }
 
@@ -161,7 +160,7 @@ class AddressViewModelTest : BaseMockitoTest() {
     @Test
     fun `save Address Saved State`() = runBlockingTest {
 
-        val request = AddressKeychainModel("dd", "dd", "dd", "dd")
+        val request = AddressKeychainModel()
 
         FieldSetter.setField(addressViewModel,
             addressViewModel::class.java.getDeclaredField("currentAddress"),
@@ -183,7 +182,7 @@ class AddressViewModelTest : BaseMockitoTest() {
     @Test
     fun `save Address NoDataToSave State`() = runBlockingTest {
 
-        val request = AddressKeychainModel("dd", "dd", "dd", "dd")
+        val request = AddressKeychainModel()
 
         Mockito.`when`(repository.saveAddress(request)).thenReturn(Unit)
 
@@ -202,7 +201,7 @@ class AddressViewModelTest : BaseMockitoTest() {
     @Test
     fun `save Address Error State`() = runBlockingTest {
 
-        val request = AddressKeychainModel("dd", "dd", "dd", "dd")
+        val request = AddressKeychainModel()
         val exception = Exception("An error has occurred")
 
         FieldSetter.setField(addressViewModel,
