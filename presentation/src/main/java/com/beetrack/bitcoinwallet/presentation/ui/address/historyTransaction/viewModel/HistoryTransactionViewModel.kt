@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.history.viewModel
+package com.beetrack.bitcoinwallet.presentation.ui.address.historyTransaction.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HistoryViewModel @Inject constructor(private val getTransactionsUseCase: GetTransactionsUseCase) :
+class HistoryTransactionViewModel @Inject constructor(private val getTransactionsUseCase: GetTransactionsUseCase) :
     BaseViewModel() {
 
     private val _historyTransactionLiveData: MutableLiveData<ResourceState<AddressTransactionModel>> =

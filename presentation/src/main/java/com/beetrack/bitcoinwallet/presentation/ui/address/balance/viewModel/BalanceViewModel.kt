@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel
+package com.beetrack.bitcoinwallet.presentation.ui.address.balance.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class StateViewModel @Inject constructor(private val getAddressBalanceUseCase: GetAddressBalanceUseCase) :
+class BalanceViewModel @Inject constructor(private val getAddressBalanceUseCase: GetAddressBalanceUseCase) :
     BaseViewModel() {
 
     private val _addressBalanceLiveData: MutableLiveData<ResourceState<AddressBalanceModel>> =

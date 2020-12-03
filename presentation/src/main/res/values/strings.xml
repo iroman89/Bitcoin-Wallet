@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Bitcoint Wallet</string>
+    <string name="app_name">Bitcoin Wallet</string>
     <string name="new_address">New</string>
     <string name="save_address">Save</string>
     <string name="your_address">Your Address:</string>
     <string name="address">Address</string>
-    <string name="state">State</string>
+    <string name="state">Status</string>
     <string name="history">History</string>
     <string name="not_address_saved">Not Address Saved</string>
     <string name="network_error">No has internet connection</string>
@@ -21,10 +21,10 @@
     <string name="final_balance">Final balance:</string>
     <string name="getting_address_balance_progress">Getting balance…</string>
     <string name="address_generator">Address Generator</string>
-    <string name="wallet_state">Wallet State</string>
-    <string name="getting_historial_transaction">Getting transactions…</string>
-    <string name="no_transactions">You don\'t have transactions</string>
+    <string name="wallet_state">Wallet Status</string>
     <string name="history_transactions">Transaction History</string>
+    <string name="getting_history_transaction">Getting transactions…</string>
+    <string name="no_transactions">You don\'t have transactions</string>
     <string name="generate">Generate</string>
     <string name="date">Date:</string>
     <string name="total">Total:</string>

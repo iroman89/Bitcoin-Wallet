@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.history.viewModel
+package com.beetrack.bitcoinwallet.presentation.ui.address.historyTransaction.viewModel
 
 import androidx.lifecycle.Observer
 import com.beetrack.bitcoinwallet.domain.model.AddressTransactionModel
@@ -16,9 +16,9 @@ import org.junit.Test
 import org.mockito.*
 
 @ExperimentalCoroutinesApi
-class HistoryViewModelTest : BaseMockitoTest() {
+class HistoryTransactionViewModelTest : BaseMockitoTest() {
 
-    private lateinit var historyViewModel: HistoryViewModel
+    private lateinit var historyTransactionViewModel: HistoryTransactionViewModel
 
     private lateinit var getTransactionsUseCase: GetTransactionsUseCase
 
@@ -36,13 +36,13 @@ class HistoryViewModelTest : BaseMockitoTest() {
         MockitoAnnotations.initMocks(this)
 
         getTransactionsUseCase = Mockito.spy(GetTransactionsUseCase(repository))
-        historyViewModel = HistoryViewModel(getTransactionsUseCase)
-        historyViewModel.historyTransactionLiveData.observeForever(observer)
+        historyTransactionViewModel = HistoryTransactionViewModel(getTransactionsUseCase)
+        historyTransactionViewModel.historyTransactionLiveData.observeForever(observer)
     }
 
     @After
     fun finish() {
-        historyViewModel.historyTransactionLiveData.removeObserver(observer)
+        historyTransactionViewModel.historyTransactionLiveData.removeObserver(observer)
     }
 
     @Test
@@ -53,7 +53,7 @@ class HistoryViewModelTest : BaseMockitoTest() {
 
         Mockito.`when`(repository.getAddressTransaction()).thenReturn(transactionResponse)
 
-        historyViewModel.getTransactions()
+        historyTransactionViewModel.getTransactions()
 
         Mockito.verify(observer, Mockito.times(2))
             .onChanged(argumentCaptor.capture())
@@ -72,7 +72,7 @@ class HistoryViewModelTest : BaseMockitoTest() {
 
         Mockito.`when`(repository.getAddressTransaction()).thenReturn(transactionResponse)
 
-        historyViewModel.getTransactions()
+        historyTransactionViewModel.getTransactions()
 
         coroutinesTestRule.testDispatcher.advanceUntilIdle()
 
@@ -91,7 +91,7 @@ class HistoryViewModelTest : BaseMockitoTest() {
         val exception = Exception("An error has occurred")
         Mockito.`when`(repository.getAddressTransaction()).thenThrow(exception)
 
-        historyViewModel.getTransactions()
+        historyTransactionViewModel.getTransactions()
 
         coroutinesTestRule.testDispatcher.advanceUntilIdle()
 

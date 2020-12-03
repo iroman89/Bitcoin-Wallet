@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.history
+package com.beetrack.bitcoinwallet.presentation.ui.address.historyTransaction
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,15 +11,15 @@ import com.beetrack.bitcointwallet.presentation.databinding.FragmentHistoryBindi
 import com.beetrack.bitcoinwallet.domain.model.AddressTransactionModel
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
-import com.beetrack.bitcoinwallet.presentation.ui.address.history.adapter.TransactionAdapter
-import com.beetrack.bitcoinwallet.presentation.ui.address.history.viewModel.HistoryViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.historyTransaction.adapter.TransactionAdapter
+import com.beetrack.bitcoinwallet.presentation.ui.address.historyTransaction.viewModel.HistoryTransactionViewModel
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
 import com.beetrack.bitcoinwallet.presentation.util.extension.*
 
-class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
+class HistoryTransactionFragment : BaseFragment<FragmentHistoryBinding>() {
 
-    private val historyViewModel: HistoryViewModel by viewModels { viewModelFactory }
+    private val historyTransactionViewModel: HistoryTransactionViewModel by viewModels { viewModelFactory }
 
     override fun setBinding(
         inflater: LayoutInflater,
@@ -33,7 +33,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     }
 
     private fun subscribe() {
-        observe(historyViewModel.historyTransactionLiveData) {
+        observe(historyTransactionViewModel.historyTransactionLiveData) {
             handleHistoryTransactionState(it)
         }
     }
@@ -54,11 +54,11 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         with(binding) {
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = false
-                historyViewModel.getTransactions()
+                historyTransactionViewModel.getTransactions()
             }
         }
 
-        historyViewModel.historyTransactionLiveData.value?.also {
+        historyTransactionViewModel.historyTransactionLiveData.value?.also {
             handleHistoryTransactionState(it)
         } ?: getTransactions()
     }
@@ -68,7 +68,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             manageFailure(Failure.NetworkConnection)
             return
         }
-        historyViewModel.getTransactions()
+        historyTransactionViewModel.getTransactions()
     }
 
     private fun historyTransactionSuccess(data: AddressTransactionModel?) {
@@ -107,7 +107,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         with(binding) {
             progressScreen.visible()
             progressScreen.progressMessage.text =
-                getString(R.string.getting_historial_transaction)
+                getString(R.string.getting_history_transaction)
             historyList.gone()
             errorScreen.gone()
         }

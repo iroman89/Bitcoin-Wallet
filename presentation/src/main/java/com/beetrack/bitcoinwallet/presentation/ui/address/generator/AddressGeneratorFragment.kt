@@ -18,7 +18,7 @@ import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
 import com.beetrack.bitcoinwallet.presentation.util.extension.*
 import com.beetrack.bitcoinwallet.presentation.util.toBitmapQR
 
-class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
+class AddressGeneratorFragment : BaseFragment<FragmentAddressBinding>() {
 
     private val addressViewModel: AddressViewModel by viewModels { viewModelFactory }
 

@@ -3,8 +3,8 @@ package com.beetrack.bitcoinwallet.presentation.di.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressViewModel
-import com.beetrack.bitcoinwallet.presentation.ui.address.history.viewModel.HistoryViewModel
-import com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel.StateViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.historyTransaction.viewModel.HistoryTransactionViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.balance.viewModel.BalanceViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ViewModelFactory
 import com.beetrack.bitcoinwallet.presentation.util.ViewModelKey
 import dagger.Binds
@@ -24,11 +24,11 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(StateViewModel::class)
-    abstract fun bindStateViewModel(viewModel: StateViewModel): ViewModel
+    @ViewModelKey(BalanceViewModel::class)
+    abstract fun bindStateViewModel(viewModel: BalanceViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @ViewModelKey(HistoryViewModel::class)
-    abstract fun bindHistoryViewModel(viewModel: HistoryViewModel): ViewModel
+    @ViewModelKey(HistoryTransactionViewModel::class)
+    abstract fun bindHistoryViewModel(viewModel: HistoryTransactionViewModel): ViewModel
 }

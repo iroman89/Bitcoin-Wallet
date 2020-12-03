@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.history.adapter
+package com.beetrack.bitcoinwallet.presentation.ui.address.historyTransaction.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

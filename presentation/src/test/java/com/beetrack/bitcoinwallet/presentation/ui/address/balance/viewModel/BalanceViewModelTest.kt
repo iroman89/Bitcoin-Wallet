@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel
+package com.beetrack.bitcoinwallet.presentation.ui.address.balance.viewModel
 
 import androidx.lifecycle.Observer
 import com.beetrack.bitcoinwallet.domain.model.AddressBalanceModel
@@ -16,9 +16,9 @@ import org.junit.Test
 import org.mockito.*
 
 @ExperimentalCoroutinesApi
-class StateViewModelTest : BaseMockitoTest() {
+class BalanceViewModelTest : BaseMockitoTest() {
 
-    private lateinit var stateViewModel: StateViewModel
+    private lateinit var balanceViewModel: BalanceViewModel
 
     private lateinit var getAddressBalanceUseCase: GetAddressBalanceUseCase
 
@@ -36,13 +36,13 @@ class StateViewModelTest : BaseMockitoTest() {
         MockitoAnnotations.initMocks(this)
 
         getAddressBalanceUseCase = Mockito.spy(GetAddressBalanceUseCase(repository))
-        stateViewModel = StateViewModel(getAddressBalanceUseCase)
-        stateViewModel.addressBalanceLiveData.observeForever(observer)
+        balanceViewModel = BalanceViewModel(getAddressBalanceUseCase)
+        balanceViewModel.addressBalanceLiveData.observeForever(observer)
     }
 
     @After
     fun finish() {
-        stateViewModel.addressBalanceLiveData.removeObserver(observer)
+        balanceViewModel.addressBalanceLiveData.removeObserver(observer)
     }
 
     @Test
@@ -51,7 +51,7 @@ class StateViewModelTest : BaseMockitoTest() {
         val response = AddressBalanceModel("")
         Mockito.`when`(repository.getAddressBalance()).thenReturn(response)
 
-        stateViewModel.getAddressBalance()
+        balanceViewModel.getAddressBalance()
 
         Mockito.verify(observer, Mockito.times(2)).onChanged(
             argumentCaptor.capture()
@@ -69,7 +69,7 @@ class StateViewModelTest : BaseMockitoTest() {
         val exception = IllegalArgumentException()
         Mockito.`when`(repository.getAddressBalance()).thenThrow(exception)
 
-        stateViewModel.getAddressBalance()
+        balanceViewModel.getAddressBalance()
 
         coroutinesTestRule.testDispatcher.advanceUntilIdle()
 
@@ -89,7 +89,7 @@ class StateViewModelTest : BaseMockitoTest() {
         val exception = Exception("An error has occurred")
         Mockito.`when`(repository.getAddressBalance()).thenThrow(exception)
 
-        stateViewModel.getAddressBalance()
+        balanceViewModel.getAddressBalance()
 
         Mockito.verify(observer, Mockito.times(2)).onChanged(
             argumentCaptor.capture()

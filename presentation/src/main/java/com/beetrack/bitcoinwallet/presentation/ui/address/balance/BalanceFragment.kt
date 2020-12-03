@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.state
+package com.beetrack.bitcoinwallet.presentation.ui.address.balance
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +10,16 @@ import com.beetrack.bitcointwallet.presentation.databinding.FragmentStateBinding
 import com.beetrack.bitcoinwallet.domain.model.AddressBalanceModel
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
-import com.beetrack.bitcoinwallet.presentation.ui.address.state.viewModel.StateViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.balance.viewModel.BalanceViewModel
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
 import com.beetrack.bitcoinwallet.presentation.util.DecimalFormat
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
 import com.beetrack.bitcoinwallet.presentation.util.extension.*
 import com.beetrack.bitcoinwallet.presentation.util.toBitmapQR
 
-class StateFragment : BaseFragment<FragmentStateBinding>() {
+class BalanceFragment : BaseFragment<FragmentStateBinding>() {
 
-    private val stateViewModel: StateViewModel by viewModels { viewModelFactory }
+    private val balanceViewModel: BalanceViewModel by viewModels { viewModelFactory }
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentStateBinding =
         FragmentStateBinding.inflate(layoutInflater, container, false)
@@ -31,7 +31,7 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
     }
 
     private fun subscribe() {
-        observe(stateViewModel.addressBalanceLiveData) {
+        observe(balanceViewModel.addressBalanceLiveData) {
             handleAddressBalanceState(it)
         }
     }
@@ -44,11 +44,11 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
         with(binding) {
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = false
-                stateViewModel.getAddressBalance()
+                balanceViewModel.getAddressBalance()
             }
         }
 
-        stateViewModel.addressBalanceLiveData.value?.also {
+        balanceViewModel.addressBalanceLiveData.value?.also {
             handleAddressBalanceState(it)
         } ?: getAddressBalance()
     }
@@ -58,7 +58,7 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
             manageFailure(Failure.NetworkConnection)
             return
         }
-        stateViewModel.getAddressBalance()
+        balanceViewModel.getAddressBalance()
     }
 
     private fun handleAddressBalanceState(state: ResourceState<AddressBalanceModel>) {

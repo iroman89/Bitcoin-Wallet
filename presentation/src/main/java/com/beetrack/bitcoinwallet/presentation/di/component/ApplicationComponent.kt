@@ -6,9 +6,9 @@ import com.beetrack.bitcoinwallet.presentation.di.module.DatabaseModule
 import com.beetrack.bitcoinwallet.presentation.di.module.RepositoryModule
 import com.beetrack.bitcoinwallet.presentation.di.module.RetrofitModule
 import com.beetrack.bitcoinwallet.presentation.di.module.ViewModelModule
-import com.beetrack.bitcoinwallet.presentation.ui.address.generator.AddressGenerationFragment
-import com.beetrack.bitcoinwallet.presentation.ui.address.history.HistoryFragment
-import com.beetrack.bitcoinwallet.presentation.ui.address.state.StateFragment
+import com.beetrack.bitcoinwallet.presentation.ui.address.generator.AddressGeneratorFragment
+import com.beetrack.bitcoinwallet.presentation.ui.address.historyTransaction.HistoryTransactionFragment
+import com.beetrack.bitcoinwallet.presentation.ui.address.balance.BalanceFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -33,7 +33,7 @@ interface ApplicationComponent {
     }
 
     fun inject(bitcoinWalletApplication: BitcoinWalletApplication)
-    fun inject(addressGenerationFragment: AddressGenerationFragment)
-    fun inject(stateFragment: StateFragment)
-    fun inject(historyFragment: HistoryFragment)
+    fun inject(addressGeneratorFragment: AddressGeneratorFragment)
+    fun inject(balanceFragment: BalanceFragment)
+    fun inject(historyTransactionFragment: HistoryTransactionFragment)
 }
