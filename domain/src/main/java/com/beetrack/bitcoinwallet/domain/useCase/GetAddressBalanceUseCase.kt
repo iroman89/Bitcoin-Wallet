@@ -5,7 +5,7 @@ import com.beetrack.bitcoinwallet.domain.repository.BlockCypherRepository
 import com.beetrack.bitcoinwallet.domain.util.BaseUseCase
 import javax.inject.Inject
 
-class GetAddressBalanceUseCase @Inject constructor(private val repository: BlockCypherRepository) :
+open class GetAddressBalanceUseCase @Inject constructor(private val repository: BlockCypherRepository) :
     BaseGetAddressBalanceUseCase() {
 
     override suspend fun invoke(params: Nothing?): AddressBalanceModel =

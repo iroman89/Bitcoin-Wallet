@@ -1,4 +1,4 @@
-package com.beetrack.bitcoinwallet.presentation.ui.address.history.viewmodel
+package com.beetrack.bitcoinwallet.presentation.ui.address.history.viewModel
 
 import androidx.lifecycle.Observer
 import com.beetrack.bitcoinwallet.domain.model.AddressTransactionModel
@@ -6,7 +6,6 @@ import com.beetrack.bitcoinwallet.domain.repository.BlockCypherRepository
 import com.beetrack.bitcoinwallet.domain.useCase.GetTransactionsUseCase
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.BaseMockitoTest
-import com.beetrack.bitcoinwallet.presentation.ui.address.history.viewModel.HistoryViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
 import junit.framework.Assert.assertSame
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,7 +46,7 @@ class HistoryViewModelTest : BaseMockitoTest() {
     }
 
     @Test
-    fun `getTransaction Success State`() = runBlockingTest {
+    fun `get Transactions Success State`() = runBlockingTest {
 
         val transactionResponse =
             AddressTransactionModel(listOf(AddressTransactionModel.TransactionItem()))
@@ -66,7 +65,7 @@ class HistoryViewModelTest : BaseMockitoTest() {
     }
 
     @Test
-    fun `getTransaction Empty State`() = runBlockingTest {
+    fun `get Transactions Empty State`() = runBlockingTest {
 
         val transactionResponse =
             AddressTransactionModel(listOf())
@@ -85,7 +84,7 @@ class HistoryViewModelTest : BaseMockitoTest() {
     }
 
     @Test
-    fun `getTransaction Error State`() = runBlockingTest {
+    fun `get Transactions Error State`() = runBlockingTest {
 
         val exception = Exception("An error has occurred")
         Mockito.`when`(repository.getAddressTransaction()).thenThrow(exception)

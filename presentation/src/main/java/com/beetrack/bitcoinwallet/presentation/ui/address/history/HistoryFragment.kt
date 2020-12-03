@@ -36,9 +36,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
 
     private fun subscribe() {
         observe(historyViewModel.historyTransactionLiveData) {
-            it?.also {
-                handleHistoryTransactionState(it)
-            }
+            handleHistoryTransactionState(it)
         }
     }
 

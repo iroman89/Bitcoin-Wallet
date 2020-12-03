@@ -6,7 +6,6 @@ sealed class Failure {
     object Empty : Failure()
     object NoDataToSave : Failure()
     object NetworkConnection : Failure()
-    object ErrorSaveData : Failure()
 }
 
 fun Throwable.toFailure() =

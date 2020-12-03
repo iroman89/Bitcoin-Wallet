@@ -9,6 +9,5 @@ sealed class AddressState<T>(
     class Loading<T> : AddressState<T>()
     class Got<T>(data: T) : AddressState<T>(data)
     class Generated<T>(data: T) : AddressState<T>(data)
-    class Saved<T> : AddressState<T>()
     class Error<T>(failure: Failure) : AddressState<T>(failure = failure)
 }

@@ -34,9 +34,7 @@ class StateFragment : BaseFragment<FragmentStateBinding>() {
 
     private fun subscribe() {
         observe(stateViewModel.addressBalanceLiveData) {
-            it?.also {
-                handleAddressBalanceState(it)
-            }
+            handleAddressBalanceState(it)
         }
     }
 

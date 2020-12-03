@@ -13,6 +13,7 @@ import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.appComponent
 import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressState
 import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressViewModel
+import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.SaveAddressState
 import com.beetrack.bitcoinwallet.presentation.util.BaseFragment
 import com.beetrack.bitcoinwallet.presentation.util.extension.*
 import com.beetrack.bitcoinwallet.presentation.util.toBitmapQR
@@ -35,9 +36,10 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
     private fun subscribe() {
         with(addressViewModel) {
             observe(addressLiveData) {
-                it?.also {
-                    handleAddressState(it)
-                }
+                handleAddressState(it)
+            }
+            observe(saveAddressLiveData) {
+                handleSaveAddressState(it)
             }
         }
     }
@@ -89,13 +91,19 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
         } ?: addressViewModel.getAddress()
     }
 
-    private fun handleAddressState(addressState: AddressState<AddressKeychainModel>) =
-        when (addressState) {
+    private fun handleSaveAddressState(state: SaveAddressState<Boolean>) =
+        when (state) {
+            is SaveAddressState.Loading -> showProgress()
+            is SaveAddressState.Saved -> saveAddressSuccess()
+            is SaveAddressState.Error -> manageFailure(state.failure)
+        }
+
+    private fun handleAddressState(state: AddressState<AddressKeychainModel>) =
+        when (state) {
             is AddressState.Loading -> showProgress()
-            is AddressState.Got -> getOrGenerateAddressSuccess(addressState.data)
-            is AddressState.Generated -> getOrGenerateAddressSuccess(addressState.data, true)
-            is AddressState.Saved -> saveAddressSuccess()
-            is AddressState.Error -> manageFailure(addressState.failure)
+            is AddressState.Got -> getOrGenerateAddressSuccess(state.data)
+            is AddressState.Generated -> getOrGenerateAddressSuccess(state.data, true)
+            is AddressState.Error -> manageFailure(state.failure)
         }
 
     private fun getOrGenerateAddressSuccess(
@@ -110,11 +118,12 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
             }
         }
 
-    private fun saveAddressSuccess() =
+    private fun saveAddressSuccess() {
         hideProgress {
-            requireActivity().toast(getString(R.string.address_saved))
             binding.saveAddress.isEnabled = false
+            requireActivity().toast(getString(R.string.address_saved))
         }
+    }
 
     private fun manageFailure(failure: Failure?) =
         when (failure) {

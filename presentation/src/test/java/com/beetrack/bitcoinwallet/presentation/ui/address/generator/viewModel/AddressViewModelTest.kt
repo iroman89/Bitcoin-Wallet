@@ -1,7 +1,8 @@
 @file:Suppress("UNREACHABLE_CODE")
 
-package com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewmodel
+package com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.beetrack.bitcoinwallet.domain.model.AddressKeychainModel
 import com.beetrack.bitcoinwallet.domain.repository.BlockCypherRepository
@@ -10,8 +11,6 @@ import com.beetrack.bitcoinwallet.domain.useCase.GetAddressUseCase
 import com.beetrack.bitcoinwallet.domain.useCase.SaveAddressUseCase
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.presentation.BaseMockitoTest
-import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressState
-import com.beetrack.bitcoinwallet.presentation.ui.address.generator.viewModel.AddressViewModel
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertSame
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,10 +35,16 @@ class AddressViewModelTest : BaseMockitoTest() {
     private lateinit var repository: BlockCypherRepository
 
     @Mock
-    private lateinit var observer: Observer<AddressState<AddressKeychainModel>>
+    private lateinit var addressStateObserver: Observer<AddressState<AddressKeychainModel>>
+
+    @Mock
+    private lateinit var saveAddressStateObserver: Observer<SaveAddressState<Boolean>>
 
     @Captor
-    private lateinit var argumentCaptor: ArgumentCaptor<AddressState<AddressKeychainModel>>
+    private lateinit var addressStateArgumentCaptor: ArgumentCaptor<AddressState<AddressKeychainModel>>
+
+    @Captor
+    private lateinit var saveAddressStateArgumentCaptor: ArgumentCaptor<SaveAddressState<Boolean>>
 
     @Before
     fun setup() {
@@ -51,12 +56,14 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         addressViewModel =
             AddressViewModel(getAddressUseCase, generateAddressUseCase, saveAddressUseCase)
-        addressViewModel.addressLiveData.observeForever(observer)
+        addressViewModel.addressLiveData.observeForever(addressStateObserver)
+        addressViewModel.saveAddressLiveData.observeForever(saveAddressStateObserver)
     }
 
     @After
     fun finish() {
-        addressViewModel.addressLiveData.removeObserver(observer)
+        addressViewModel.addressLiveData.removeObserver(addressStateObserver)
+        addressViewModel.saveAddressLiveData.removeObserver(saveAddressStateObserver)
     }
 
     @Test
@@ -70,11 +77,11 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         addressViewModel.getAddress()
 
-        Mockito.verify(observer, Mockito.times(2)).onChanged(
-            argumentCaptor.capture()
+        Mockito.verify(addressStateObserver, Mockito.times(2)).onChanged(
+            addressStateArgumentCaptor.capture()
         )
 
-        with(argumentCaptor.value) {
+        with(addressStateArgumentCaptor.value) {
             assert(this is AddressState.Got)
             assertEquals(this.data, addressResponse)
         }
@@ -90,11 +97,11 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         addressViewModel.getAddress()
 
-        Mockito.verify(observer, Mockito.times(2)).onChanged(
-            argumentCaptor.capture()
+        Mockito.verify(addressStateObserver, Mockito.times(2)).onChanged(
+            addressStateArgumentCaptor.capture()
         )
 
-        with(argumentCaptor.value) {
+        with(addressStateArgumentCaptor.value) {
             assert(this is AddressState.Error)
             assert(this.failure is Failure.Empty)
         }
@@ -108,11 +115,11 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         addressViewModel.getAddress()
 
-        Mockito.verify(observer, Mockito.times(2)).onChanged(
-            argumentCaptor.capture()
+        Mockito.verify(addressStateObserver, Mockito.times(2)).onChanged(
+            addressStateArgumentCaptor.capture()
         )
 
-        with(argumentCaptor.value) {
+        with(addressStateArgumentCaptor.value) {
             assert(this is AddressState.Error)
             assert(this.failure is Failure.Error)
             assertSame((this.failure as Failure.Error).throwable,
@@ -128,11 +135,11 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         addressViewModel.generateAddress()
 
-        Mockito.verify(observer, Mockito.times(2)).onChanged(
-            argumentCaptor.capture()
+        Mockito.verify(addressStateObserver, Mockito.times(2)).onChanged(
+            addressStateArgumentCaptor.capture()
         )
 
-        with(argumentCaptor.value) {
+        with(addressStateArgumentCaptor.value) {
             assert(this is AddressState.Generated)
             assertEquals(this.data, addressResponse)
         }
@@ -146,11 +153,11 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         addressViewModel.generateAddress()
 
-        Mockito.verify(observer, Mockito.times(2)).onChanged(
-            argumentCaptor.capture()
+        Mockito.verify(addressStateObserver, Mockito.times(2)).onChanged(
+            addressStateArgumentCaptor.capture()
         )
 
-        with(argumentCaptor.value) {
+        with(addressStateArgumentCaptor.value) {
             assert(this is AddressState.Error)
             assert(this.failure is Failure.Error)
             assertSame((this.failure as Failure.Error).throwable, exception)
@@ -163,24 +170,24 @@ class AddressViewModelTest : BaseMockitoTest() {
         val request = AddressKeychainModel()
 
         FieldSetter.setField(addressViewModel,
-            addressViewModel::class.java.getDeclaredField("currentAddress"),
-            request)
+            addressViewModel::class.java.getDeclaredField("_addressLiveData"),
+            MutableLiveData(AddressState.Generated(request)))
 
         Mockito.`when`(repository.saveAddress(request)).thenReturn(Unit)
 
         addressViewModel.saveAddress()
 
-        Mockito.verify(observer, Mockito.times(2)).onChanged(
-            argumentCaptor.capture()
+        Mockito.verify(saveAddressStateObserver, Mockito.times(2)).onChanged(
+            saveAddressStateArgumentCaptor.capture()
         )
 
-        with(argumentCaptor.value) {
-            assert(this is AddressState.Saved)
+        with(saveAddressStateArgumentCaptor.value) {
+            assert(this is SaveAddressState.Saved)
         }
     }
 
     @Test
-    fun `save Address NoDataToSave State`() = runBlockingTest {
+    fun `save Address NoDataToSave Error State`() = runBlockingTest {
 
         val request = AddressKeychainModel()
 
@@ -188,12 +195,12 @@ class AddressViewModelTest : BaseMockitoTest() {
 
         addressViewModel.saveAddress()
 
-        Mockito.verify(observer, Mockito.times(1)).onChanged(
-            argumentCaptor.capture()
+        Mockito.verify(saveAddressStateObserver, Mockito.times(1)).onChanged(
+            saveAddressStateArgumentCaptor.capture()
         )
 
-        with(argumentCaptor.value) {
-            assert(this is AddressState.Error)
+        with(saveAddressStateArgumentCaptor.value) {
+            assert(this is SaveAddressState.Error)
             assert(this.failure is Failure.NoDataToSave)
         }
     }
@@ -205,19 +212,19 @@ class AddressViewModelTest : BaseMockitoTest() {
         val exception = Exception("An error has occurred")
 
         FieldSetter.setField(addressViewModel,
-            addressViewModel::class.java.getDeclaredField("currentAddress"),
-            request)
+            addressViewModel::class.java.getDeclaredField("_addressLiveData"),
+            MutableLiveData(AddressState.Generated(request)))
 
         Mockito.`when`(repository.saveAddress(request)).thenThrow(exception)
 
         addressViewModel.saveAddress()
 
-        Mockito.verify(observer, Mockito.times(2)).onChanged(
-            argumentCaptor.capture()
+        Mockito.verify(saveAddressStateObserver, Mockito.times(2)).onChanged(
+            saveAddressStateArgumentCaptor.capture()
         )
 
-        with(argumentCaptor.value) {
-            assert(this is AddressState.Error)
+        with(saveAddressStateArgumentCaptor.value) {
+            assert(this is SaveAddressState.Error)
             assert(this.failure is Failure.Error)
             assertSame((this.failure as Failure.Error).throwable, exception)
         }

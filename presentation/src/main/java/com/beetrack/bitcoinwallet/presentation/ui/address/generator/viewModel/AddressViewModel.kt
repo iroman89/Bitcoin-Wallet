@@ -10,6 +10,7 @@ import com.beetrack.bitcoinwallet.domain.useCase.GetAddressUseCase
 import com.beetrack.bitcoinwallet.domain.useCase.SaveAddressUseCase
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.domain.util.toFailure
+import com.beetrack.bitcoinwallet.presentation.util.SingleShotLiveData
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -23,11 +24,18 @@ class AddressViewModel @Inject constructor(
 
     private val _addressLiveData: MutableLiveData<AddressState<AddressKeychainModel>> =
         MutableLiveData()
-    val addressLiveData: LiveData<AddressState<AddressKeychainModel>> =
-        _addressLiveData
+    val addressLiveData: LiveData<AddressState<AddressKeychainModel>>
+        get() = _addressLiveData
 
-    private val currentAddress: AddressKeychainModel? =
-        _addressLiveData.value?.data
+    private val _saveAddressLiveData: SingleShotLiveData<SaveAddressState<Boolean>> =
+        SingleShotLiveData()
+    val saveAddressLiveData: LiveData<SaveAddressState<Boolean>>
+        get() = _saveAddressLiveData
+
+    private val currentAddress: AddressKeychainModel?
+        get() {
+            return _addressLiveData.value?.data
+        }
 
     fun getAddress() {
         viewModelScope.launch {
@@ -66,17 +74,17 @@ class AddressViewModel @Inject constructor(
 
             val data = currentAddress
             if (data == null) {
-                _addressLiveData.postValue(AddressState.Error(Failure.NoDataToSave))
+                _saveAddressLiveData.postValue(SaveAddressState.Error(Failure.NoDataToSave))
                 return@launch
             }
-            _addressLiveData.postValue(AddressState.Loading())
+            _saveAddressLiveData.postValue(SaveAddressState.Loading())
 
             runCatching {
                 saveAddressUseCase.invoke(data)
             }.onSuccess {
-                _addressLiveData.postValue(AddressState.Saved())
+                _saveAddressLiveData.postValue(SaveAddressState.Saved())
             }.onFailure {
-                _addressLiveData.postValue(AddressState.Error(it.toFailure()))
+                _saveAddressLiveData.postValue(SaveAddressState.Error(it.toFailure()))
             }
         }
     }

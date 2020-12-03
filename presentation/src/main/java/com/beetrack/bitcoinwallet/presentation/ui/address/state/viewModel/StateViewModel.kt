@@ -8,7 +8,6 @@ import com.beetrack.bitcoinwallet.domain.useCase.GetAddressBalanceUseCase
 import com.beetrack.bitcoinwallet.domain.util.toFailure
 import com.beetrack.bitcoinwallet.presentation.util.BaseViewModel
 import com.beetrack.bitcoinwallet.presentation.util.ResourceState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +20,7 @@ class StateViewModel @Inject constructor(private val getAddressBalanceUseCase: G
         _addressBalanceLiveData
 
     fun getAddressBalance() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _addressBalanceLiveData.postLoading()
 
             runCatching {
