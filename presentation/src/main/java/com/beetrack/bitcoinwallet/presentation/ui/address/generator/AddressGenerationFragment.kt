@@ -34,7 +34,7 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
 
     private fun subscribe() {
         with(addressViewModel) {
-            observe(getAddressLiveData) {
+            observe(addressLiveData) {
                 it?.also {
                     handleAddressState(it)
                 }
@@ -84,7 +84,7 @@ class AddressGenerationFragment : BaseFragment<FragmentAddressBinding>() {
             }
         }
 
-        addressViewModel.getAddressLiveData.value?.also {
+        addressViewModel.addressLiveData.value?.also {
             handleAddressState(it)
         } ?: addressViewModel.getAddress()
     }

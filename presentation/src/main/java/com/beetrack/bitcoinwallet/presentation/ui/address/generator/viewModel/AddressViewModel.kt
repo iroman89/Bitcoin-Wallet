@@ -10,7 +10,6 @@ import com.beetrack.bitcoinwallet.domain.useCase.GetAddressUseCase
 import com.beetrack.bitcoinwallet.domain.useCase.SaveAddressUseCase
 import com.beetrack.bitcoinwallet.domain.util.Failure
 import com.beetrack.bitcoinwallet.domain.util.toFailure
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,59 +21,62 @@ class AddressViewModel @Inject constructor(
     private val saveAddressUseCase: SaveAddressUseCase,
 ) : ViewModel() {
 
-    private val _getAddressLiveData: MutableLiveData<AddressState<AddressKeychainModel>> =
+    private val _addressLiveData: MutableLiveData<AddressState<AddressKeychainModel>> =
         MutableLiveData()
-    val getAddressLiveData: LiveData<AddressState<AddressKeychainModel>> =
-        _getAddressLiveData
+    val addressLiveData: LiveData<AddressState<AddressKeychainModel>> =
+        _addressLiveData
+
+    private val currentAddress: AddressKeychainModel? =
+        _addressLiveData.value?.data
 
     fun getAddress() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _getAddressLiveData.postValue(AddressState.Loading())
+        viewModelScope.launch {
+            _addressLiveData.postValue(AddressState.Loading())
 
             runCatching {
                 getAddressUseCase.invoke(null)
             }.onSuccess {
                 it.catch {
-                    _getAddressLiveData.postValue(AddressState.Error(Failure.Empty))
+                    _addressLiveData.postValue(AddressState.Error(Failure.Empty))
                 }.collect { address ->
-                    _getAddressLiveData.postValue(AddressState.Got(address))
+                    _addressLiveData.postValue(AddressState.Got(address))
                 }
             }.onFailure {
-                _getAddressLiveData.postValue(AddressState.Error(it.toFailure()))
+                _addressLiveData.postValue(AddressState.Error(it.toFailure()))
             }
         }
     }
 
     fun generateAddress() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _getAddressLiveData.postValue(AddressState.Loading())
+        viewModelScope.launch {
+            _addressLiveData.postValue(AddressState.Loading())
 
             runCatching {
                 generateAddressUseCase.invoke(null)
             }.onSuccess {
-                _getAddressLiveData.postValue(AddressState.Generated(it))
+                _addressLiveData.postValue(AddressState.Generated(it))
             }.onFailure {
-                _getAddressLiveData.postValue(AddressState.Error(it.toFailure()))
+                _addressLiveData.postValue(AddressState.Error(it.toFailure()))
             }
         }
     }
 
     fun saveAddress() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _getAddressLiveData.postValue(AddressState.Loading())
+        viewModelScope.launch {
 
-            val data = _getAddressLiveData.value?.data
+            val data = currentAddress
             if (data == null) {
-                _getAddressLiveData.postValue(AddressState.Error(Failure.NoDataToSave))
+                _addressLiveData.postValue(AddressState.Error(Failure.NoDataToSave))
                 return@launch
             }
+            _addressLiveData.postValue(AddressState.Loading())
 
             runCatching {
                 saveAddressUseCase.invoke(data)
             }.onSuccess {
-                _getAddressLiveData.postValue(AddressState.Saved())
+                _addressLiveData.postValue(AddressState.Saved())
             }.onFailure {
-                _getAddressLiveData.postValue(AddressState.Error(it.toFailure()))
+                _addressLiveData.postValue(AddressState.Error(it.toFailure()))
             }
         }
     }

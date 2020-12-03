@@ -174,14 +174,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
-            app:constraint_referenced_ids="state_container"
-            tools:visibility="visible" />
+            app:constraint_referenced_ids="state_container
+            ,address_label
+            ,address_value
+            ,address_qr
+            ,divider"
+            tools:visibility="gone" />
 
         <include
             android:id="@+id/progress_screen"
             layout="@layout/progress_layout"
             android:visibility="visible"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
